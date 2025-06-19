@@ -1,11 +1,8 @@
 import random
 # Initializing variables, Player class, Weapon Class + instances, and functions for gameplay
 
-class Inventory():
-    def __init__(self, weapons_list):
-        self.weapons_list = []
-        return weapons_list
-
+# Standalone variables
+shop_choice = 0
 
 class Weapon():
     def __init__(self, damage, name, cost):
@@ -17,10 +14,15 @@ class Weapon():
     
 class Player():
     health = 100 # Player's HP, doesn't increase, but can be healed by buying potions
-    money = 50 # Base money, can be increased through "Scouring"
+    money = 500 # Base money, can be increased through "Scouring"
     health_potions = 0 # Health Potions that can be used to recover a player's health
     player_weapon = Weapon(10, "Fists", 0) # Starter weapon + base damage, decided to have both in one variable
-    bag = Inventory(weapons_list=["Fists"+])
+    bag = [] # Initializing bag, so that players can purchase multiple weapons
+
+# Tests
+Player.bag.append("Stick")
+print(*Player.bag)
+#------------------------------------ 
 
 # Weapons and their stats: Damage, Name, and shop Cost
 stick = Weapon(15, "Stick", 300)
@@ -30,6 +32,9 @@ metal_sword = Weapon(40, "Metal Sword", 1000)
 dragonblade = Weapon(200, "Dragonblade", 7000)
 # ------------------------------------------------
 
+def add_weapon(bag, shop_choice):
+    Player.bag.append(shop_choice)
+    
 print(Player.player_weapon)
 def maze():
     x = 1
@@ -45,9 +50,14 @@ def purchasing():
             print("Have a nice day!")
             break
         if shop_choice == "Stick":
+            def check_bag(bag, shop_choice):
+                if bag.count(shop_choice) > 0:
+                    print("You already have this item.")
+                    continue
             if Player.money >= stick.cost:
                 confirmation = input("Are you sure?")
                 if confirmation == "Yes":
+                    add_weapon(Player.bag, shop_choice)
                     Player.money -= stick.cost
                     Player.player_weapon = stick
                     print("You just bought the Stick (15 damage)")
@@ -96,6 +106,7 @@ def choose(): # Player chooses what they want to do (4 options)
         print(f"Your health: {Player.health}")
         print(f"Your current damage: {Player.player_weapon.damage}")
         print(f"Your current weapon: {Player.player_weapon.name}")
+        print(f"Your inventory: {Player.bag}")
     elif option == "2": # Goes to the "main game"
         maze()
     elif option == "3": # Shop to buy potions and better weapons
