@@ -1,4 +1,10 @@
 import random
+"""
+TODO: Add 
+"""
+
+
+
 # Initializing variables, Player class, Weapon Class + instances, and functions for gameplay
 
 # Standalone variables
@@ -14,13 +20,13 @@ class Weapon():
     
 class Player():
     health = 100 # Player's HP, doesn't increase, but can be healed by buying potions
-    money = 500 # Base money, can be increased through "Scouring"
+    money = 50 # Base money, can be increased through "Scouring"
     health_potions = 0 # Health Potions that can be used to recover a player's health
     player_weapon = Weapon(10, "Fists", 0) # Starter weapon + base damage, decided to have both in one variable
     bag = [] # Initializing bag, so that players can purchase multiple weapons
 
 # Tests
-Player.bag.append("Stick")
+Player.bag.append("Fists")
 print(*Player.bag)
 #------------------------------------ 
 
@@ -49,7 +55,7 @@ def purchasing():
         if shop_choice == "Nothing":
             print("Have a nice day!")
             break
-        if shop_choice == "Stick":
+        elif shop_choice == "Stick":
             def check_bag(bag, shop_choice):
                 if bag.count(shop_choice) > 0:
                     print("You already have this item.")
@@ -96,7 +102,7 @@ def purchasing():
 
                     
 def choose(): # Player chooses what they want to do (4 options)
-    option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats)")
+    option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats/ 5: Check Your Inventory)")
     if option == "1": # "Scouring"
         winnings = random.randrange(1,120)
         print("You got " + str(winnings) + " moneys!")
@@ -124,6 +130,18 @@ def choose(): # Player chooses what they want to do (4 options)
             print("\"The Dragonblade,\" the boy said in a wispy voice. \n")
             print("Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has 200 damage. ")
             purchasing()
+    elif option == "5":
+        print("You look inside the bag that you've just noticed was on your back. Take a look inside.")
+        print(f"Your weapons: {Player.bag}")
+        equip = input("Do you want to equip a certain weapon? (Yes/No)")
+        equip.lower()
+        if equip == "yes":
+            select = input(f"Select your weapon to equip: {Player.bag}")
+            if Player.bag.count(select) > 0 and Player.player_weapon.name != select:
+                x =2
+                
+
+
         choose()
 
 # The game begins!!
