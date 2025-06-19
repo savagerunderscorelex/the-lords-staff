@@ -1,13 +1,23 @@
 import random
 class Player():
-    damage = 12
+    damage = 10
     health = 16
     money = 100
-    weapon = "Stick"
-x = 2
+    weapon = "Fists"
+
 def choose():
-    global options
-    options = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Upgrade Equipment/4: Check Your Stats)")
+    option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats)")
+    if option == "1":
+        winnings = random.randrange(1,120)
+        print("You got " + str(winnings) + " moneys!")
+        Player.money += winnings
+    elif option == "4":
+        print(f"Your money: {Player.money}")
+        print(f"Your health: {Player.health}")
+        print(f"Your current damage: {Player.damage}")
+        print(f"Your current weapon: {Player.weapon}")
+    choose()
+
 
 print("Welcome to The Lord's Staff! Enter 1 to start the game.")
 enter = input("Enter the Game:")
@@ -17,13 +27,6 @@ if enter == "1":
     "But you have this overwhelming feeling of heading on a journey to find something. A special something. The Lord’s Staff.")
 
 choose()
-option = options
-
-if option == "1":
-    winnings = random.randrange(1,120)
-    print("You got " + str(winnings) + " moneys!")
-    Player.money += winnings
-    choose()
 
 input_weaponshop = 1
 
