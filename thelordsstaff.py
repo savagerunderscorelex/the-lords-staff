@@ -1,15 +1,18 @@
 import random
 """
-TODO: Add 
+TODO: 
+Add function to select name
+Finish inventory select function
+begin on maze code, figure out monsters, directions, etc. 
+Finish adding comments as well
+
 """
 
-
-
 # Initializing variables, Player class, Weapon Class + instances, and functions for gameplay
-
 # Standalone variables
 shop_choice = 0
 
+#Classes
 class Weapon():
     def __init__(self, damage, name, cost):
         self.damage = damage
