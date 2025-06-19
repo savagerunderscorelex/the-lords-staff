@@ -6,6 +6,7 @@ class Player():
     health = 100 # Player's HP, doesn't increase, but can be healed by buying potions
     money = 50 # Base money, can be increased through "Scouring"
     weapon = "Fists" # Starter weapon, better ones can be bought in shop
+    health_potions = 0 # Health Potions that can be used to recover a player's health
 
 def maze():
     x = 1
@@ -14,9 +15,12 @@ def maze():
     """
 def purchasing():
     print(" ")
-    print("Wares: \nStick (300 coins)\nWooden Sword (500 coins)\nBow (700 coins)\nMetal Sword (1,000 coins)\nDragonblade (7000 coins)")
-    shop_choice = input("What would you like to buy?:")
-    while shop_choice != "Nothing":
+    print("Wares: \nStick (300 coins)\nWooden Sword (500 coins)\nBow (700 coins)\nMetal Sword (1,000 coins)\nDragonblade (7000 coins), ")
+    while 1 == 1:
+        shop_choice = input("What would you like to buy?:")
+        if shop_choice == "Nothing":
+            print("Have a nice day!")
+            break
         if shop_choice == "Stick":
             if Player.money >= 300:
                 confirmation = input("Are you sure?")
@@ -24,11 +28,12 @@ def purchasing():
                     Player.money -= 300
                     Player.weapon = "Stick"
                     print("You just bought the Stick (15 damage)")
+                    break
                 elif confirmation == "No":
                     print("idk")
-                    continue
-            else:
-                print("You don't have enough money.")
+                else:
+                    print("You don't have enough money.")
+                    
 def choose(): # Player chooses what they want to do (4 options)
     option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats)")
     if option == "1": # "Scouring"
