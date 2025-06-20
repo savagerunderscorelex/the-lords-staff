@@ -28,6 +28,7 @@ class Player():
     player_weapon = Weapon(10, "Fists", 0) # Starter weapon + base damage, decided to have both in one variable
     bag = [] # Initializing bag, so that players can purchase multiple weapons
 
+bag = Player.bag
 # Tests
 Player.bag.append("Fists")
 print(*Player.bag)
@@ -42,7 +43,8 @@ dragonblade = Weapon(200, "Dragonblade", 7000)
 # ------------------------------------------------
 
 def add_weapon(bag, shop_choice):
-    Player.bag.append(shop_choice)
+    bag.append(shop_choice)
+    print(f"You just bought {shop_choice}!")
     
 print(Player.player_weapon)
 def maze():
@@ -50,32 +52,34 @@ def maze():
     """
     This might not stay a function, it's just a placeholder for the options. Still planning out how the maze will work.
     """
-def purchasing():
+def purchasing(): # Function for buying things at the shop
     print(" ")
     print(f"Wares: \nStick ({stick.cost} coins)\nWooden Sword ({wooden_sword.cost} coins)\nBow (700 coins)\nMetal Sword ({metal_sword.cost} coins)\nDragonblade ({dragonblade.cost} coins), ")
-    while 1 == 1:
-        shop_choice = input("What would you like to buy?:")
+    while 1 == 1: # Loop of buying things in shop
+        shop_choice = input("What would you like to buy?: ")
         if shop_choice == "Nothing":
             print("Have a nice day!")
-            break
+            break # Leaves the shop
         elif shop_choice == "Stick":
-            def check_bag(bag, shop_choice):
-                if bag.count(shop_choice) > 0:
-                    print("You already have this item.")
-                    continue
-            if Player.money >= stick.cost:
-                confirmation = input("Are you sure?")
-                if confirmation == "Yes":
-                    add_weapon(Player.bag, shop_choice)
-                    Player.money -= stick.cost
-                    Player.player_weapon = stick
-                    print("You just bought the Stick (15 damage)")
+            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+                print("You already have this item.")
+                break
+            else: 
+                if Player.money >= stick.cost: 
+                    confirmation = input("Are you sure?")
+                    if confirmation == "Yes":
+                        add_weapon(bag, shop_choice)
+                        Player.money -= stick.cost
+                        Player.player_weapon = stick
+                        print("You just bought the Stick (15 damage)")
+                        print("You've equipped the Stick.")
+                        purchasing()
+                    elif confirmation == "No":
+                        print("\"Look around, then! Maybe you'll find something else you like,\" the boy says.")
+                        continue
+                else:
+                    print("You don't have enough money.") # Gets kicked out since you don't have money
                     break
-                elif confirmation == "No":
-                    print("\"Look around, then! Maybe you'll find something else you like,\" the boy says.")
-                    continue
-            else:
-                print("You don't have enough money.")
         elif shop_choice == "Wooden Sword":
              if Player.money >= wooden_sword.cost:
                 confirmation = input("Are you sure?")
@@ -110,6 +114,7 @@ def choose(): # Player chooses what they want to do (4 options)
         winnings = random.randrange(1,120)
         print("You got " + str(winnings) + " moneys!")
         Player.money += winnings
+        choose()
     elif option == "4": # Shows Player their Stats
         print(f"Your money: {Player.money}")
         print(f"Your health: {Player.health}")
@@ -142,19 +147,23 @@ def choose(): # Player chooses what they want to do (4 options)
             select = input(f"Select your weapon to equip: {Player.bag}")
             if Player.bag.count(select) > 0 and Player.player_weapon.name != select:
                 x =2
-                
-
-
+    else:
+        print("That is not a valid option.")
         choose()
 
 # The game begins!!
 
-print("Welcome to The Lord's Staff! Enter 1 to start the game.") # Ready player one reference?????
-enter = input("Enter the Game:")
-if enter == "1":
-    print("You spawn in a fantasy city, with witches in crooked hats speeding on their brooms over you, and stone trolls hobbling past you. "
-    "You don’t know who you are, where you came from, or what made you come here. " 
-    "But you have this overwhelming feeling of heading on a journey to find something. A special something. The Lord’s Staff.")
+while 2 + 2 == 4: # Introduction code is in a while loop so that the player doesn't have to reset the program to reenter 1 to start the game
+    print("Welcome to The Lord's Staff! Enter 1 to start the game.") # Ready player one reference?????
+    enter = input("Enter the Game:")
+    if enter == "1":
+        print("You spawn in a fantasy city, with witches in crooked hats speeding on their brooms over you, and stone trolls hobbling past you. "
+        "You don’t know who you are, where you came from, or what made you come here. " 
+        "But you have this overwhelming feeling of heading on a journey to find something. A special something. The Lord’s Staff.")
+        break
+    else:
+        print("Please enter 1 to start the game.")
+        continue
 choose()
 
 
