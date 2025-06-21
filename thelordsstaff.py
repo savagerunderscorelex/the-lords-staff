@@ -141,13 +141,12 @@ def choose(): # Player chooses what they want to do (4 options)
     elif option == "5":
         print("You look inside the bag that you've just noticed was on your back. Take a look inside.")
         print(f"Your weapons: {Player.bag}")
-        equip = input("Do you want to equip a certain weapon? (Yes/No)")
-        equip.lower()
+        equip = input("Do you want to equip a certain weapon? (Yes/No): ")
+        equip = equip.lower()
         if equip == "yes":
             select = input(f"Select your weapon to equip: {Player.bag}")
-            if Player.bag.count(select) > 0 and Player.player_weapon.name != select:
-                x =2
-    else:
+            if bag.count(select) == 1 and Player.player_weapon.name != select and select == "Stick":
+                Player.player_weapon = stick
         print("That is not a valid option.")
         choose()
 
