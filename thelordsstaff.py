@@ -7,18 +7,22 @@ begin on maze code, figure out monsters, directions, etc.
 Finish adding comments as well
 
 CURRENT PROBLEMS: 
+- 
 
 """
 
 """
-UPDATES (For Devlogs and Commit messages):
+UPDATES (For Devlogs and Commit messages because I keep forgetting to write them):
 6/21 - More comments, made certain inputs output as lowercase so that users can enter inputs whether they are capitalized or not
 started on equipping weapons selection "screen," fixed bugs in the purchasing function
+
+6/22 - Made print statements more "story-like", including making the no-money statement, confirmation statement (the question), and confirmation statement (the answer) more detailed :P,
+made the print weapons statement a for loop instead, I also decided to separate some of the choose() function options into their own separate functions so that the code looks kinda better
 """
 
 # Initializing variables, Player class, Weapon Class + instances, and functions for gameplay
-# Standalone variables
-shop_choice = 0
+
+
 
 #Classes
 class Weapon():
@@ -36,10 +40,14 @@ class Player():
     player_weapon = Weapon(10, "Fists", 0) # Starter weapon + base damage, decided to have both in one variable
     bag = [] # Initializing bag, so that players can purchase multiple weapons
 
+# Standalone variables
+shop_choice = 0
 bag = Player.bag
+
 # Tests
-Player.bag.append("Fists")
-print(*Player.bag)
+bag.append("Fists")
+print(*bag)
+print(Player.player_weapon)
 #------------------------------------ 
 
 # Weapons and their stats: Damage, Name, and shop Cost
@@ -50,22 +58,43 @@ metal_sword = Weapon(40, "Metal Sword", 1000)
 dragonblade = Weapon(200, "Dragonblade", 7000)
 # ------------------------------------------------
 
-# Messages or small functions
+# Small Functions: Short message statements or code that does like one thing
 def equip_message():
     print("You've equipped the {player.player_weapon.name}")
 def add_weapon(bag, shop_choice):
     bag.append(shop_choice)
-    print(f"You just bought {shop_choice}!")
 def purchase_message():
     print(f"You just bought the {Player.player_weapon.name}! ({Player.player_weapon.damage} damage)")
     print(f"You've equipped the {Player.player_weapon.name}.")
     print("You leave the shop, a new weapon in hand. ")
-    
-print(Player.player_weapon)
+def print_weapons():
+    for i in bag:
+        print(i, end=", ")
+
+# Medium Sized Functions: Functions in choose() function, since I decided to compact the choose() function a bit by turning the print statements/minor pieces of code into their own functions
+def print_player_stats():
+    print(f"Your money: {Player.money}")
+    print(f"Your health: {Player.health}")
+    print(f"Your current damage: {Player.player_weapon.damage}")
+    print(f"Your current weapon: {Player.player_weapon.name}")
+def shop_desc_fists():
+    print("You look around, taking a closer look at the wares. To the left of you, lies a simple Stick.")
+    print("It looks like it will add a bit to your damage, having 15 damage instead of 10.")
+    print("Behind the boy, lies 3 more weapons, one is slightly stronger weapon: a Wooden Sword.")
+    print("This has twice the damage as just your hands (20 damage)")
+    print("Next to the Wooden Sword lies a basic Bow, with about 30 damage.")
+    print("\nA Metal Sword, gleaming in the afternoon sun, catches your attention. This weapon has 40 damage.")
+    print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
+    print("\"The Dragonblade,\" the boy said in a wispy voice. \n")
+    print("Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has 200 damage. ")
+
+# HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
 def maze():
-    x = 1
+    pass
     """
     This might not stay a function, it's just a placeholder for the options. Still planning out how the maze will work.
+    Or not really how the maze "works" but the paths the maze has. The players can choose between certain directions when approaching a point in the
+    maze with multiple directions (Left, Right, etc). I'm still figuring out how extensive this maze will be. 
     """
 def purchasing(): # Function for buying things at the shop
     print(" ") # Whitespace for easier reading
@@ -76,7 +105,7 @@ def purchasing(): # Function for buying things at the shop
         if shop_choice == "Nothing":
             print("\"Have a nice day!\" the boy says, waving his hand goodbye.")
             print(" ")
-            print(" You have left the shop.")
+            print("You have left the shop.")
             break # Leaves the shop
         elif shop_choice == "Stick":
             if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
@@ -84,9 +113,11 @@ def purchasing(): # Function for buying things at the shop
                 break
             else: 
                 if Player.money >= stick.cost: 
-                    confirmation = input("Are you sure? (Yes/No): ") # Making sure the player actually wants the item
+                    confirmation = input("\"Are you sure?\" the boy asks. (Yes/No): ") # Making sure the player actually wants the item
                     confirmation = confirmation.lower()
                     if confirmation == "yes": 
+                        print(f"\"Yes,\" you reply, handing over {stick.cost} coins to the boy. The boy collects the coins with both of his hands, and counts them slowly. He then gives you the {stick.name}.")
+                        print(" ")
                         add_weapon(bag, shop_choice)
                         Player.money -= stick.cost
                         Player.player_weapon = stick
@@ -95,7 +126,7 @@ def purchasing(): # Function for buying things at the shop
                         print("\"Look around, then! Maybe you'll find something else you like,\" the boy says.")
                         continue
                 else:
-                    print("You don't have enough money.") 
+                    print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"") 
                     break # You get kicked out since you don't have money
         elif shop_choice == "Wooden Sword":
                 if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
@@ -103,9 +134,11 @@ def purchasing(): # Function for buying things at the shop
                     break
                 else: 
                     if Player.money >= wooden_sword.cost: 
-                        confirmation = input("Are you sure? (Yes/No): ") # Making sure the player actually wants the item
+                        confirmation = input("\"Are you sure?\" the boy asks. (Yes/No): ") # Making sure the player actually wants the item
                         confirmation = confirmation.lower()
                         if confirmation == "yes": 
+                            print(f"\"Yes,\" you reply, handing over {wooden_sword.cost} coins to the boy. The boy collects the coins with both of his hands, and counts them slowly. He then gives you the {wooden_sword.name}.")
+                            print(" ")
                             add_weapon(bag, shop_choice)
                             Player.money -= wooden_sword.cost
                             Player.player_weapon = wooden_sword
@@ -114,24 +147,86 @@ def purchasing(): # Function for buying things at the shop
                             print("\"Look around, then! Maybe you'll find something else you like,\" the boy says.")
                             continue
                     else:
-                        print("You don't have enough money.") 
+                        print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"") 
                         break # You get kicked out since you don't have money
-
+        elif shop_choice == "Metal Sword":
+            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+                print("You already have this item.")
+                break
+            else: 
+                if Player.money >= metal_sword.cost: 
+                    confirmation = input("\"Are you sure?\" the boy asks. (Yes/No): ") # Making sure the player actually wants the item
+                    confirmation = confirmation.lower()
+                    if confirmation == "yes": 
+                        print(f"\"Yes,\" you reply, handing over {metal_sword.cost} coins to the boy. The boy collects the coins with both of his hands, and counts them slowly. He then gives you the {metal_sword.name}.")
+                        print(" ")
+                        add_weapon(bag, shop_choice)
+                        Player.money -= metal_sword.cost
+                        Player.player_weapon = metal_sword
+                        purchase_message()
+                    elif confirmation == "no":
+                        print("\"Look around, then! Maybe you'll find something else you like,\" the boy says.")
+                        continue
+                else:
+                    print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"") 
+                    break # You get kicked out since you don't have money
+        elif shop_choice == "Bow":
+            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+                print("You already have this item.")
+                break
+            else: 
+                if Player.money >= bow.cost: 
+                    confirmation = input("\"Are you sure?\" the boy asks. (Yes/No): ") # Making sure the player actually wants the item
+                    confirmation = confirmation.lower()
+                    if confirmation == "yes": 
+                        print(f"\"Yes,\" you reply, handing over {bow.cost} coins to the boy. The boy collects the coins with both of his hands, and counts them slowly. He then gives you the {bow.name}.")
+                        print(" ")
+                        add_weapon(bag, shop_choice)
+                        Player.money -= bow.cost
+                        Player.player_weapon = bow
+                        purchase_message()
+                    elif confirmation == "no":
+                        print("\"Look around, then! Maybe you'll find something else you like,\" the boy says.")
+                        continue
+                else:
+                    print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"")  
+                    break # You get kicked out since you don't have money
+        elif shop_choice == "Dragonblade":
+            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+                print("You already have this item.")
+                break
+            else: 
+                if Player.money >= dragonblade.cost: 
+                    confirmation = input("\"Are you sure?\" the boy asks. (Yes/No): ") # Making sure the player actually wants the item
+                    confirmation = confirmation.lower()
+                    if confirmation == "yes": 
+                        print(f"\"Yes,\" you reply, handing over {dragonblade.cost} coins to the boy. The boy collects the coins with both of his hands, and counts them slowly. He then gives you the {dragonblade.name}.")
+                        print(" ")    
+                        add_weapon(bag, shop_choice)
+                        Player.money -= dragonblade.cost
+                        Player.player_weapon = dragonblade
+                        purchase_message()
+                    elif confirmation == "no":
+                        print("\"Look around, then! Maybe you'll find something else you like,\" the boy says.")
+                        continue
+                else:
+                    print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"") 
+                    break # You get kicked out since you don't enough money, brokie
+        else:
+            print("\"Uhm, I don't have that in the store right now,\" the boy says. \"Maybe you should choose something else.\"")
+            print("\"Oh! Okay!\" you say in embarassment.")
+            continue # Player gets to rechoose their options if they mistype something (or something...)
     choose()
                     
 def choose(): # Player chooses what they want to do (4 options)
     option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats/ 5: Check Your Inventory)")
     if option == "1": # "Scouring"
-        winnings = random.randrange(1,120)
+        winnings = random.randrange(1,150)
         print("You got " + str(winnings) + " moneys!")
         Player.money += winnings
         choose()
     elif option == "4": # Shows Player their Stats
-        print(f"Your money: {Player.money}")
-        print(f"Your health: {Player.health}")
-        print(f"Your current damage: {Player.player_weapon.damage}")
-        print(f"Your current weapon: {Player.player_weapon.name}")
-        print(f"Your inventory: {Player.bag}")
+        print_player_stats()
         choose()
     elif option == "2": # Goes to the "main game"
         maze()
@@ -140,23 +235,19 @@ def choose(): # Player chooses what they want to do (4 options)
         print("He seems too young to own a shop like this, so you assume he's the owner's son. The boy is likely not older than 10, but he has a demeanor that makes him look so much older.")
         print(" ")
         if Player.player_weapon.name == "Fists": # Different descriptions based on current weapon
-            print("You look around, taking a closer look at the wares. To the left of you, lies a simple Stick.")
-            print("It looks like it will add a bit to your damage, having 15 damage instead of 10.")
-            print("Behind the boy, lies 3 more weapons, one is slightly stronger weapon: a Wooden Sword.")
-            print("This has twice the damage as just your hands (20 damage)")
-            print("Next to the Wooden Sword lies a basic Bow, with about 30 damage.")
-            print("\nA Metal Sword, gleaming in the afternoon sun, catches your attention. This weapon has 40 damage.")
-            print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
-            print("\"The Dragonblade,\" the boy said in a wispy voice. \n")
-            print("Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has 200 damage. ")
+            shop_desc_fists()
             purchasing()
     elif option == "5":
         print("You notice the bag that was hanging on your back. Take a look inside.")
-        print(f"Your weapons: {Player.bag}")
+        print(f"Your weapons: ")
+        print_weapons()
+        print(" ")
         equip = input("Do you want to equip a certain weapon? (Yes/No): ")
         equip = equip.lower()
         if equip == "yes":
-            select = input(f"Select your weapon to equip: {Player.bag}").lower()
+            print("Your weapons: ")
+            print_weapons()
+            select = input(f"Select your weapon to equip: ").lower() # not case sensitive
             if bag.count(select) > 0:
                 if Player.player_weapon.name != select: 
                     if select == "stick":
