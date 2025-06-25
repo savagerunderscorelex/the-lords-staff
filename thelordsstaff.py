@@ -18,11 +18,15 @@ started on equipping weapons selection "screen," fixed bugs in the purchasing fu
 
 6/22 - Made print statements more "story-like", including making the no-money statement, confirmation statement (the question), and confirmation statement (the answer) more detailed :P,
 made the print weapons statement a for loop instead, I also decided to separate some of the choose() function options into their own separate functions so that the code looks kinda better
+
+6/25 - Made a specific fists instance in case players want to equip the fists weapon, also coded lowercase and capital case options into the code for 
+equipping a weapon by making the condition an or comparison instead of whatever I was trying to do before. Basic solution but whatever
+also just realized I kinda wasted my time trying to format the player's answer, when I could've done 1 for Stick, 2 for Metal Sword, etc. (LIKE
+I DID FOR THE CHOOSE() FUNCTION WHAT THE HELLLLLLLLLLLLLLLLLLLLLLLLL)
+
 """
 
 # Initializing variables, Player class, Weapon Class + instances, and functions for gameplay
-
-
 
 #Classes
 class Weapon():
@@ -32,12 +36,16 @@ class Weapon():
         self.cost = cost
     def __str__(self):
         return f"{self.damage}, {self.name}, {self.cost}"
-    
+
+# Fists
+fists = Weapon(10, "Fists", 0) # decided to create an instance of the default weapon in case players would want to equip fists for whatever reason
+
+
 class Player():
     health = 100 # Player's HP, doesn't increase, but can be healed by buying potions
-    money = 50 # Base money, can be increased through "Scouring"
+    money = 5003 # Base money, can be increased through "Scouring"
     health_potions = 0 # Health Potions that can be used to recover a player's health
-    player_weapon = Weapon(10, "Fists", 0) # Starter weapon + base damage, decided to have both in one variable
+    player_weapon = fists # Starter weapon + base damage, decided to have both in one variable
     bag = [] # Initializing bag, so that players can purchase multiple weapons
 
 # Standalone variables
@@ -60,7 +68,7 @@ dragonblade = Weapon(200, "Dragonblade", 7000)
 
 # Small Functions: Short message statements or code that does like one thing
 def equip_message():
-    print("You've equipped the {player.player_weapon.name}")
+    print(f"You've equipped the {Player.player_weapon.name}!")
 def add_weapon(bag, shop_choice):
     bag.append(shop_choice)
 def purchase_message():
@@ -90,7 +98,7 @@ def shop_desc_fists():
 
 # HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
 def maze():
-    pass
+    print("You enter the maze. ")
     """
     This might not stay a function, it's just a placeholder for the options. Still planning out how the maze will work.
     Or not really how the maze "works" but the paths the maze has. The players can choose between certain directions when approaching a point in the
@@ -100,7 +108,7 @@ def purchasing(): # Function for buying things at the shop
     print(" ") # Whitespace for easier reading
     print(f"Wares: \nStick ({stick.cost} coins)\nWooden Sword ({wooden_sword.cost} coins)\nBow (700 coins)\nMetal Sword ({metal_sword.cost} coins)\nDragonblade ({dragonblade.cost} coins), ")
     while 1 == 1: # Loop of buying things in shop
-        shop_choice = input("What would you like to buy?: ")
+        shop_choice = input("What would you like to buy? (Stick, Bow, Dragonblade, Metal Sword, Wooden Sword (or Nothing?)): ")
         shop_choice = shop_choice
         if shop_choice == "Nothing":
             print("\"Have a nice day!\" the boy says, waving his hand goodbye.")
@@ -218,10 +226,10 @@ def purchasing(): # Function for buying things at the shop
             continue # Player gets to rechoose their options if they mistype something (or something...)
     choose()
                     
-def choose(): # Player chooses what they want to do (4 options)
+def choose(): # Player chooses what they want to do (5 options)
     option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats/ 5: Check Your Inventory)")
     if option == "1": # "Scouring"
-        winnings = random.randrange(1,150)
+        winnings = random.randrange(1,120)
         print("You got " + str(winnings) + " moneys!")
         Player.money += winnings
         choose()
@@ -231,6 +239,7 @@ def choose(): # Player chooses what they want to do (4 options)
     elif option == "2": # Goes to the "main game"
         maze()
     elif option == "3": # Shop to buy potions and better weapons
+        print(" ")
         print("You enter a stout shop. Potions fill the shelves on both sides of the cramped shop. A small boy sits at the cashier desk, legs swinging back and forth.")
         print("He seems too young to own a shop like this, so you assume he's the owner's son. The boy is likely not older than 10, but he has a demeanor that makes him look so much older.")
         print(" ")
@@ -247,24 +256,27 @@ def choose(): # Player chooses what they want to do (4 options)
         if equip == "yes":
             print("Your weapons: ")
             print_weapons()
-            select = input(f"Select your weapon to equip: ").lower() # not case sensitive
-            if bag.count(select) > 0:
-                if Player.player_weapon.name != select: 
-                    if select == "stick":
+            print(" ")
+            select = input(f"Select your weapon to equip: ") # not case sensitive
+            if bag.count(select) > 0 or bag.count(select.capitalize()) > 0:
+                if Player.player_weapon.name != select or Player.player_weapon.name.lower() != select: 
+                    if select == "Stick" or select.lower() == "stick":
                         Player.player_weapon = stick
                         equip_message()
-                    elif select == "metal sword":
+                    elif select == "Metal Sword" or select.lower() == "metal sword":
                         Player.player_weapon = metal_sword
                         equip_message()
-                    elif select == "bow":
+                    elif select == "Bow" or select.lower() == "bow":
                         Player.player_weapon = bow
                         equip_message()
-                    elif select == "wooden sword":
+                    elif select == "Wooden Sword" or select.lower() == "wooden sword":
                         Player.player_weapon = wooden_sword
                         equip_message()
-                    elif select == "dragonblade":
+                    elif select == "Dragonblade" or select.lower() == "dragonblade":
                         Player.player_weapon = dragonblade
                         equip_message()
+                    elif select == "Fists" or select.lower() == "fists":
+                        Player.player_weapon = fists
                 else:
                     print("You already have this item equipped.")
             else:
@@ -276,7 +288,7 @@ def choose(): # Player chooses what they want to do (4 options)
         choose()
 
 # The game begins!!
-
+# Waow i can't believe this little code (not defining functions, not defining classes) is what it takes to run the program. 
 while 2 + 2 == 4: # Introduction code is in a while loop so that the player doesn't have to reset the program to reenter 1 to start the game
     print("Welcome to The Lord's Staff! Enter 1 to start the game.") # Ready player one reference?????
     enter = input("Enter the Game:")
