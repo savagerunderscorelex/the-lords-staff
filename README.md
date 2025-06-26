@@ -1,10 +1,8 @@
 # The Lord's Staff
 The Lord's Staff is a short options based text game played in a terminal. This story "game" is coded in Python. This is my first ever coding project, and I hope anyone who plays can enjoy it :)
 
-# My Coding Backeground
-I am a new(ish) programmer, which is+
- why this project took me 10+ hours. I decided to learn programming around this time last year, since I graduated from middle school and wanted to do
-self-improvement by learning things like programming, improving my drawing, and getting back into writing again. I found my life boring at the time because I didn't do my hobbies all that much. So learning about new things helped me enjoy my life a lot better, especially programming. 
+# My Coding Background
+I am a new(ish) programmer, which is why this project took me as long as it did. I decided to learn programming around this time last year, since I graduated from middle school and wanted to do self-improvement by learning things like programming, improving my drawing, and getting back into writing again. I found my life boring at the time because I didn't do my hobbies all that much. So learning about new things, especially programming,  helped me enjoy my life a lot better.
 Summer of 2024 is when I learned a lot of the basics that helped me code this project. A little bit of my experience comes from my programming class at school, however since the class was just an intro class, it was more of a review for me. 
 
 # Idea
@@ -14,9 +12,9 @@ The idea from this project actually came from a Khan Academy project @LeaferStud
 # How to Run This Program
 ## Required Downloads:
 Python (latest version)
-This Program (thelordsstaff.py)
+<br>This Program (thelordsstaff.py)
 
 ## Instructions
-On a desktop (PC or laptop), download Python (if you haven't already) and this program. You can download the program by clicking on the program name that shows its commits, press the 3 dots on the right side and pressing "Download."
+On a desktop (PC or laptop), download Python (if you haven't already) and this program. You can download the program by clicking on the program name that shows its commits, pressing the 3 dots on the right side and clicking "Download."
 
 Once you've downloaded the program, right click on it and open it in your operating system's terminal. It should work!! Later, I'll try to use other websites where users could execute the code online. 
