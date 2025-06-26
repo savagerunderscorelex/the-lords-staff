@@ -16,13 +16,16 @@ UPDATES (For Devlogs and Commit messages because I keep forgetting to write them
 6/21 - More comments, made certain inputs output as lowercase so that users can enter inputs whether they are capitalized or not
 started on equipping weapons selection "screen," fixed bugs in the purchasing function
 
-6/22 - Made print statements more "story-like", including making the no-money statement, confirmation statement (the question), and confirmation statement (the answer) more detailed :P,
+6/22 (Nigeria Time) - Made print statements more "story-like", including making the no-money statement, confirmation statement (the question), and confirmation statement (the answer) more detailed :P,
 made the print weapons statement a for loop instead, I also decided to separate some of the choose() function options into their own separate functions so that the code looks kinda better
 
-6/25 - Made a specific fists instance in case players want to equip the fists weapon, also coded lowercase and capital case options into the code for 
+6/25 (Nigeria Time) - Made a specific fists instance in case players want to equip the fists weapon, also coded lowercase and capital case options into the code for 
 equipping a weapon by making the condition an or comparison instead of whatever I was trying to do before. Basic solution but whatever
 also just realized I kinda wasted my time trying to format the player's answer, when I could've done 1 for Stick, 2 for Metal Sword, etc. (LIKE
 I DID FOR THE CHOOSE() FUNCTION WHAT THE HELLLLLLLLLLLLLLLLLLLLLLLLL)
+
+6/25 (late at night) / 6/26 (Nigeria time, it's like 6pm Eastern) finally changed the inputs to be based on numbers, updated costs for weapons
+to make them harder to obtain, updated add_weapon() function based on the number inputs
 
 """
 
@@ -43,7 +46,7 @@ fists = Weapon(10, "Fists", 0) # decided to create an instance of the default we
 
 class Player():
     health = 100 # Player's HP, doesn't increase, but can be healed by buying potions
-    money = 5003 # Base money, can be increased through "Scouring"
+    money = 0 # Base money, can be increased through "Scouring"
     health_potions = 0 # Health Potions that can be used to recover a player's health
     player_weapon = fists # Starter weapon + base damage, decided to have both in one variable
     bag = [] # Initializing bag, so that players can purchase multiple weapons
@@ -59,18 +62,29 @@ print(Player.player_weapon)
 #------------------------------------ 
 
 # Weapons and their stats: Damage, Name, and shop Cost
-stick = Weapon(15, "Stick", 300)
-wooden_sword = Weapon(20, "Wooden Sword", 500)
-bow = Weapon(30, "Bow", 700)
-metal_sword = Weapon(40, "Metal Sword", 1000)
-dragonblade = Weapon(200, "Dragonblade", 7000)
+stick = Weapon(15, "Stick", 500)
+wooden_sword = Weapon(20, "Wooden Sword", 1000)
+bow = Weapon(30, "Bow", 3000)
+metal_sword = Weapon(40, "Metal Sword", 7000)
+dragonblade = Weapon(200, "Dragonblade", 20000)
 # ------------------------------------------------
 
 # Small Functions: Short message statements or code that does like one thing
 def equip_message():
     print(f"You've equipped the {Player.player_weapon.name}!")
 def add_weapon(bag, shop_choice):
-    bag.append(shop_choice)
+    if shop_choice == "1":
+        bag.append("Stick")
+    elif shop_choice == "2":
+        bag.append("Wooden Sword")
+    elif shop_choice == "3":
+        bag.append("Bow")
+    elif shop_choice == "4":
+        bag.append("Metal Sword")
+    elif shop_choice == "5":
+        bag.append("Dragonsblade")
+    else:
+        pass
 def purchase_message():
     print(f"You just bought the {Player.player_weapon.name}! ({Player.player_weapon.damage} damage)")
     print(f"You've equipped the {Player.player_weapon.name}.")
@@ -98,25 +112,29 @@ def shop_desc_fists():
 
 # HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
 def maze():
-    print("You enter the maze. ")
+    print("You walk along the path set before you. In a few minutes, you're in front of a castle. Its stone walls are cracked, evidence of its old age."
+          "Moss, vines, and other vegetation have conquered the castle's high towers and grasp the building like a "
+    "You don't know why it's here or why you even"
+    "felt called to it. But deep inside your heart, you knew that this is where the Lord's Staff is hidden, deep within the labryinth"
+    "filled with monsters and other entities wishing to find it.")
     """
     This might not stay a function, it's just a placeholder for the options. Still planning out how the maze will work.
     Or not really how the maze "works" but the paths the maze has. The players can choose between certain directions when approaching a point in the
-    maze with multiple directions (Left, Right, etc). I'm still figuring out how extensive this maze will be. 
+    maze with multiple directions (Left, Right, etc). I'm still figuring out how extensive this maze will b e. 
     """
 def purchasing(): # Function for buying things at the shop
     print(" ") # Whitespace for easier reading
-    print(f"Wares: \nStick ({stick.cost} coins)\nWooden Sword ({wooden_sword.cost} coins)\nBow (700 coins)\nMetal Sword ({metal_sword.cost} coins)\nDragonblade ({dragonblade.cost} coins), ")
+    print(f"Wares: \n1.Stick ({stick.cost} coins)\n2. Wooden Sword ({wooden_sword.cost} coins)\n3. Bow {bow.cost})\n4. Metal Sword ({metal_sword.cost} coins)\n5. Dragonblade ({dragonblade.cost} coins), ")
     while 1 == 1: # Loop of buying things in shop
-        shop_choice = input("What would you like to buy? (Stick, Bow, Dragonblade, Metal Sword, Wooden Sword (or Nothing?)): ")
+        shop_choice = input("What would you like to buy? (1: Stick, 2: Wooden Sword, 3: Bow, 4: Metal Sword, 5: Dragonblade (or 6: Nothing?)): ")
         shop_choice = shop_choice
-        if shop_choice == "Nothing":
+        if shop_choice == "6":
             print("\"Have a nice day!\" the boy says, waving his hand goodbye.")
             print(" ")
             print("You have left the shop.")
             break # Leaves the shop
-        elif shop_choice == "Stick":
-            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+        elif shop_choice == "1":
+            if bag.count("Stick") > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
                 print("You already have this item.")
                 break
             else: 
@@ -136,8 +154,8 @@ def purchasing(): # Function for buying things at the shop
                 else:
                     print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"") 
                     break # You get kicked out since you don't have money
-        elif shop_choice == "Wooden Sword":
-                if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+        elif shop_choice == "2":
+                if bag.count("Wooden Sword") > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
                     print("You already have this item.")
                     break
                 else: 
@@ -157,8 +175,8 @@ def purchasing(): # Function for buying things at the shop
                     else:
                         print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"") 
                         break # You get kicked out since you don't have money
-        elif shop_choice == "Metal Sword":
-            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+        elif shop_choice == "4":
+            if bag.count("Metal Sword") > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
                 print("You already have this item.")
                 break
             else: 
@@ -178,8 +196,8 @@ def purchasing(): # Function for buying things at the shop
                 else:
                     print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"") 
                     break # You get kicked out since you don't have money
-        elif shop_choice == "Bow":
-            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+        elif shop_choice == "3":
+            if bag.count("Bow") > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
                 print("You already have this item.")
                 break
             else: 
@@ -199,8 +217,8 @@ def purchasing(): # Function for buying things at the shop
                 else:
                     print("The boy counts the gold coins you've given him, a frown appearing on his face when he was finished. \"You don't have enough money.\"")  
                     break # You get kicked out since you don't have money
-        elif shop_choice == "Dragonblade":
-            if bag.count(shop_choice) > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
+        elif shop_choice == "5":
+            if bag.count("Dragonsblade") > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
                 print("You already have this item.")
                 break
             else: 
