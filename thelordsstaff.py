@@ -54,7 +54,6 @@ class Player():
 # Standalone variables
 shop_choice = 0
 bag = Player.bag
-
 # Tests
 bag.append("Fists")
 print(*bag)
@@ -94,12 +93,12 @@ def print_weapons():
         print(i, end=", ")
 
 # Medium Sized Functions: Functions in choose() function, since I decided to compact the choose() function a bit by turning the print statements/minor pieces of code into their own functions
-def print_player_stats():
+def print_player_stats(): # Prints the player's stats, duhhhhhhhhhhhhhhhhhh
     print(f"Your money: {Player.money}")
-    print(f"Your health: {Player.health}")
+    print(f"Your health: {Player.health}/100")
     print(f"Your current damage: {Player.player_weapon.damage}")
     print(f"Your current weapon: {Player.player_weapon.name}")
-def shop_desc_fists():
+def shop_desc_fists(): # Shop description based on the currently equipped weapon: Fists
     print("You look around, taking a closer look at the wares. To the left of you, lies a simple Stick.")
     print("It looks like it will add a bit to your damage, having 15 damage instead of 10.")
     print("Behind the boy, lies 3 more weapons, one is slightly stronger weapon: a Wooden Sword.")
@@ -107,20 +106,37 @@ def shop_desc_fists():
     print("Next to the Wooden Sword lies a basic Bow, with about 30 damage.")
     print("\nA Metal Sword, gleaming in the afternoon sun, catches your attention. This weapon has 40 damage.")
     print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
-    print("\"The Dragonblade,\" the boy said in a wispy voice. \n")
+    print("\"The Dragonblade,\" the boy said in a wispy voice.")
     print("Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has 200 damage. ")
-
-# HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
-def maze():
+def maze_description(): # Large amount of print statements for the maze introduction
     print("You walk along the path set before you. In a few minutes, you're in front of a castle. Its stone walls are cracked, evidence of its old age."
-          "Moss, vines, and other vegetation have conquered the castle's high towers and grasp the building like a "
+    "Moss, vines, and other vegetation have conquered the castle, grasping its high towers like a snake on a pole."
     "You don't know why it's here or why you even"
     "felt called to it. But deep inside your heart, you knew that this is where the Lord's Staff is hidden, deep within the labryinth"
-    "filled with monsters and other entities wishing to find it.")
+    "filled with monsters and other entities wishing to find it too.")
+    print(" ")
+def ready_player_one(): # Asking the user whether or not they will enter the maze
+    print("Objective: Enter the labryinth, and choose the correct directions, or it could cost you your life.")
+    ready_player_one = input("Are you ready? (Yes/No): ")
+    if ready_player_one.lower() == "yes":
+        print("You enter the labyrinth, your chest beating, but your mind focused on your task.")
+    elif ready_player_one.lower() == "no":
+        print("Your mind races at the thought of the obstacles you'll meet in the labryinth. You're hesitant, and you're not so into it, at least not yet.")
+        choose()
+    else:
+        print("You don't even know what to pick. You go back to the middle of the path where you started.")
+        choose()
+
+
+# HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
+def maze(): # The main game: the labyrinth
+    maze_description()
+    ready_player_one()
+
     """
     This might not stay a function, it's just a placeholder for the options. Still planning out how the maze will work.
     Or not really how the maze "works" but the paths the maze has. The players can choose between certain directions when approaching a point in the
-    maze with multiple directions (Left, Right, etc). I'm still figuring out how extensive this maze will b e. 
+    maze with multiple directions (Left, Right, etc). I'm still figuring out how extensive this maze will be. 
     """
 def purchasing(): # Function for buying things at the shop
     print(" ") # Whitespace for easier reading
