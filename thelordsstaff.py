@@ -27,6 +27,16 @@ I DID FOR THE CHOOSE() FUNCTION WHAT THE HELLLLLLLLLLLLLLLLLLLLLLLLL)
 6/25 (late at night) / 6/26 (Nigeria time, it's like 6pm Eastern) finally changed the inputs to be based on numbers, updated costs for weapons
 to make them harder to obtain, updated add_weapon() function based on the number inputs
 
+7/5/2025 10:19PM WAT, 5:19PM Eastern (can't wait to get home *cry*) added 2 more mini-functions for printing a statement based on the player's
+chosen direction and whether they chose the "correct" (aka no evil guy) option. Created a function called a fork in the road where the player
+chooses which direction they go in. Someday between this update and my last update I deleted my placeholder comment in the maze function. Also created
+a Weapon instance for the Lord's Staff after the play obtains it. I'm planning on adding an option to whether or not a player can end the program or restart the maze 
+(if they happen to like the game that much.)
+
+OH! I also forgot to implement HP potions. Later, I will do so. 
+
+11:04PM WAT started on the function for the end of the story game, and figured out how to reset stats. 
+
 """
 
 # Initializing variables, Player class, Weapon Class + instances, and functions for gameplay
@@ -66,6 +76,7 @@ wooden_sword = Weapon(20, "Wooden Sword", 1000)
 bow = Weapon(30, "Bow", 3000)
 metal_sword = Weapon(40, "Metal Sword", 7000)
 dragonblade = Weapon(200, "Dragonblade", 20000)
+lords_staff = Weapon(1000, "Lord's Staff", 10000000000)
 # ------------------------------------------------
 
 # Small Functions: Short message statements or code that does like one thing
@@ -86,11 +97,23 @@ def add_weapon(bag, shop_choice):
         pass
 def purchase_message():
     print(f"You just bought the {Player.player_weapon.name}! ({Player.player_weapon.damage} damage)")
-    print(f"You've equipped the {Player.player_weapon.name}.")
-    print("You leave the shop, a new weapon in hand. ")
+    equip_message()
+    print("You leave the shop, a new weapon in hand.")
 def print_weapons():
     for i in bag:
         print(i, end=", ")
+def left():
+    print("You turn left, your heart beating with suspense.")
+def correct():
+    print("You see that there is no obstacle in your path. You breathe a sigh of relief, and continue through the labryinth.")
+
+# DEATH ZONE 
+def reset_stats(): # Sets player stats to default values, only used if restarting the game or when a player dies
+    Player.health = 100
+    Player.player_weapon = fists
+    Player.money = 0
+    Player.health_potions = 0
+    Player.bag = []
 
 # Medium Sized Functions: Functions in choose() function, since I decided to compact the choose() function a bit by turning the print statements/minor pieces of code into their own functions
 def print_player_stats(): # Prints the player's stats, duhhhhhhhhhhhhhhhhhh
@@ -124,20 +147,41 @@ def ready_player_one(): # Asking the user whether or not they will enter the maz
         print("Your mind races at the thought of the obstacles you'll meet in the labryinth. You're hesitant, and you're not so into it, at least not yet.")
         choose()
     else:
-        print("You don't even know what to pick. You go back to the middle of the path where you started.")
+        print(f"\"{ready_player_one},\" you mumble. You don't even know what to pick. You go back to the middle of the path where you started.")
         choose()
+def fork_in_the_road():
+    print("You walk forwards, and three paths lay in your wake. Which one will you choose? Choose wisely, or your life is at risk.")
+    direction = input("Choose: 1: Forward, 2: Left, 3: Right") # Players choose the direction they want to go in
+    if direction == "2":
+        left()
+def ending(): # ending print statements once the player reaches the end of the game
+    print("Thank you so much for playing.")
+    play_again = input("Do you want to play again? (Y/N): ")
+    if play_again.lower() == "y":
+        ya_sure = input("You will lose all your progress. Are you sure? (Y/N): ")
+        if ya_sure.lower() == "y":
+            print("While you are celebrating your victory, you begin to feel nauseous. Your head spins, and your vision blurs.")
+            print("The last thing you remember is falling, then feeling your body hit the dirt-packed ground.")
+            print("Your vision fades away; and now the chirping of the birds fades too. It was sunny outside, so why can you feel your body losing heat?")
+            reset_stats()
+            game()
+        elif ya_sure.lower() == "n":
+            print("You decide to continue on.")
+            choose()
+    elif play_again.lower() == "n":
+        end_frvr = input("Do you want to end the program? The program will be terminated and you will lose your progress. (Y/N)")
+        if end_frvr.lower() == "y":
+            print("Thank you so much for playing!")
+            print("You've ended the game.")
+            exit()
 
 
 # HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
 def maze(): # The main game: the labyrinth
     maze_description()
     ready_player_one()
+    fork_in_the_road()
 
-    """
-    This might not stay a function, it's just a placeholder for the options. Still planning out how the maze will work.
-    Or not really how the maze "works" but the paths the maze has. The players can choose between certain directions when approaching a point in the
-    maze with multiple directions (Left, Right, etc). I'm still figuring out how extensive this maze will be. 
-    """
 def purchasing(): # Function for buying things at the shop
     print(" ") # Whitespace for easier reading
     print(f"Wares: \n1.Stick ({stick.cost} coins)\n2. Wooden Sword ({wooden_sword.cost} coins)\n3. Bow {bow.cost})\n4. Metal Sword ({metal_sword.cost} coins)\n5. Dragonblade ({dragonblade.cost} coins), ")
@@ -323,19 +367,17 @@ def choose(): # Player chooses what they want to do (5 options)
 
 # The game begins!!
 # Waow i can't believe this little code (not defining functions, not defining classes) is what it takes to run the program. 
-while 2 + 2 == 4: # Introduction code is in a while loop so that the player doesn't have to reset the program to reenter 1 to start the game
-    print("Welcome to The Lord's Staff! Enter 1 to start the game.") # Ready player one reference?????
-    enter = input("Enter the Game:")
-    if enter == "1":
-        print("You spawn in a fantasy city, with witches in crooked hats speeding on their brooms over you, and stone trolls hobbling past you. "
-        "You don’t know who you are, where you came from, or what made you come here. " 
-        "But you have this overwhelming feeling of heading on a journey to find something. A special something. The Lord’s Staff.")
-        break
-    else:
-        print("Please enter 1 to start the game.")
-        continue
-choose()
-
-
-
-    
+def game(): # Made the start game code a function so that players might be able to restart the game if they want to play again
+    while 2 + 2 == 4: # Introduction code is in a while loop so that the player doesn't have to reset the program to reenter 1 to start the game
+        print("Welcome to The Lord's Staff! Enter 1 to start the game.") # Ready player one reference?????
+        enter = input("Enter the Game:")
+        if enter == "1":
+            print("You spawn in a fantasy city, with witches in crooked hats speeding on their brooms over you, and stone trolls hobbling past you. "
+            "You don’t know who you are, where you came from, or what made you come here. " 
+            "But you have this overwhelming feeling of heading on a journey to find something. A special something. The Lord’s Staff.")
+            break
+        else:
+            print("Please enter 1 to start the game.")
+            continue
+    choose()
+game()
