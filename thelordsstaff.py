@@ -2,10 +2,11 @@ import random
 """
 TODO: 
 Add function to select name
-Finish inventory select function
 begin on maze code, figure out monsters, directions, etc. 
 Finish adding comments as well
-
+Finish writing shop descriptions based on currently equipped weapon
+Finish creating skills and learn how to output code based on a chance through random
+when player enters the shop, pick between buying weapons or health potions
 CURRENT PROBLEMS: 
 - 
 
@@ -37,6 +38,10 @@ OH! I also forgot to implement HP potions. Later, I will do so.
 
 11:04PM WAT started on the function for the end of the story game, and figured out how to reset stats. 
 
+7/6/25 2:20PM WAT wrote the print statements for different equipped weapons when players enter the shop, fixed some minor issues (like printing the damage in the string
+instead of inserting the variable within the statement, since I changed the damage multiple times throughout this project.), removed tests and made the bag default 
+have the weapon "Fists"
+
 """
 
 # Initializing variables, Player class, Weapon Class + instances, and functions for gameplay
@@ -59,15 +64,13 @@ class Player():
     money = 0 # Base money, can be increased through "Scouring"
     health_potions = 0 # Health Potions that can be used to recover a player's health
     player_weapon = fists # Starter weapon + base damage, decided to have both in one variable
-    bag = [] # Initializing bag, so that players can purchase multiple weapons
+    bag = ["Fists",] # Initializing bag, so that players can purchase multiple weapons
 
 # Standalone variables
 shop_choice = 0
 bag = Player.bag
+
 # Tests
-bag.append("Fists")
-print(*bag)
-print(Player.player_weapon)
 #------------------------------------ 
 
 # Weapons and their stats: Damage, Name, and shop Cost
@@ -76,7 +79,7 @@ wooden_sword = Weapon(20, "Wooden Sword", 1000)
 bow = Weapon(30, "Bow", 3000)
 metal_sword = Weapon(40, "Metal Sword", 7000)
 dragonblade = Weapon(200, "Dragonblade", 20000)
-lords_staff = Weapon(1000, "Lord's Staff", 10000000000)
+lords_staff = Weapon(1000, "Lord's Staff", 10000000000) # Well, this you can't buy, but whatever. 10 billion moneys it is!!
 # ------------------------------------------------
 
 # Small Functions: Short message statements or code that does like one thing
@@ -92,7 +95,7 @@ def add_weapon(bag, shop_choice):
     elif shop_choice == "4":
         bag.append("Metal Sword")
     elif shop_choice == "5":
-        bag.append("Dragonsblade")
+        bag.append("Dragonblade")
     else:
         pass
 def purchase_message():
@@ -103,9 +106,14 @@ def print_weapons():
     for i in bag:
         print(i, end=", ")
 def left():
-    print("You turn left, your heart beating with suspense.")
+    print("You turn left, your heart beating with fear.")
+def right():
+    pass
+def forwards(): # lieu reference????????????
+    pass
 def correct():
     print("You see that there is no obstacle in your path. You breathe a sigh of relief, and continue through the labryinth.")
+
 
 # DEATH ZONE 
 def reset_stats(): # Sets player stats to default values, only used if restarting the game or when a player dies
@@ -113,7 +121,7 @@ def reset_stats(): # Sets player stats to default values, only used if restartin
     Player.player_weapon = fists
     Player.money = 0
     Player.health_potions = 0
-    Player.bag = []
+    Player.bag = ["Fists",]
 
 # Medium Sized Functions: Functions in choose() function, since I decided to compact the choose() function a bit by turning the print statements/minor pieces of code into their own functions
 def print_player_stats(): # Prints the player's stats, duhhhhhhhhhhhhhhhhhh
@@ -123,14 +131,42 @@ def print_player_stats(): # Prints the player's stats, duhhhhhhhhhhhhhhhhhh
     print(f"Your current weapon: {Player.player_weapon.name}")
 def shop_desc_fists(): # Shop description based on the currently equipped weapon: Fists
     print("You look around, taking a closer look at the wares. To the left of you, lies a simple Stick.")
-    print("It looks like it will add a bit to your damage, having 15 damage instead of 10.")
+    print(f"It looks like it will add a bit to your damage, having {stick.damage} damage instead of {fists.damage}.")
     print("Behind the boy, lies 3 more weapons, one is slightly stronger weapon: a Wooden Sword.")
-    print("This has twice the damage as just your hands (20 damage)")
-    print("Next to the Wooden Sword lies a basic Bow, with about 30 damage.")
-    print("\nA Metal Sword, gleaming in the afternoon sun, catches your attention. This weapon has 40 damage.")
+    print(f"This has twice the damage as just your hands ({wooden_sword.damage} damage)")
+    print(f"Next to the Wooden Sword lies a basic Bow, with about {bow.damage} damage.")
+    print(f"\nA Metal Sword, gleaming in the afternoon sun, catches your attention. This weapon has {metal_sword.damage} damage.")
     print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
     print("\"The Dragonblade,\" the boy said in a wispy voice.")
-    print("Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has 200 damage. ")
+    print(f"Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has {dragonblade.damage} damage.")
+def shop_desc_stick(): # Shop description based on the currently equipped weapon: Stick
+    print("You glance over the weapons scattered around the shop. Behind the boy at the paydesk, hangs a Wooden Sword.")
+    print(f"Compared to your Stick, it has a greater damage of {wooden_sword.damage} damage.")
+    print(f"Right next to the Wooden Sword is a simple Bow, packing a bigger punch of {bow.damage} damage.")
+    print(f"The sun, released from the shade of the clouds, shines its light through a window. A Metal Sword's blade gleams in the light. This weapon has {metal_sword.damage} damage.")
+    print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
+    print("\"The Dragonblade,\" the boy said in a wispy voice.")
+    print(f"Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has {dragonblade.damage} damage.")
+def shop_desc_wooden_sword():# Shop description based on the currently equipped weapon: Wooden Sword
+    print(f"Leaning on the wall of the small shop lies a Stick. It is weaker than your Wooden Sword, only dealing {stick.damage} damage.")
+    print(f"Adjacent to the boy stands a Bow, with {bow.damage} damage. It is stronger than your current weapon.")
+    print(f"Hanging on the tattered blue wallpaper of the shop lies a Metal Sword, a big upgrade to your weapon with {metal_sword.damage} damage.")
+    print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
+    print("\"The Dragonblade,\" the boy said in a wispy voice.")
+    print(f"Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has {dragonblade.damage} damage.")
+def shop_desc_bow(): # Shop description based on the currently equipped weapon: Bow
+    print("You eye the weapons in the humble shop. A stick, with a singular leaf still on its length, lies on the ground.")
+    print(f"It has a weaker damage compared to your Bow: {stick.damage} damage.")
+    print(f"On the wall behind the boy hangs a Wooden Sword. It has a lower damage compared to your weapon: {wooden_sword.damage} damage.")
+    print(f"A gleaming Metal Sword cathces your attention. It will definitely add more to your damage, having {metal_sword.damage} damage compared to the {bow.damage} damage of your bow.")
+def shop_desc_metal_sword():
+    pass
+def shop_desc_dragonblade():
+    pass
+def shop_desc_lords_staff():
+    pass
+
+
 def maze_description(): # Large amount of print statements for the maze introduction
     print("You walk along the path set before you. In a few minutes, you're in front of a castle. Its stone walls are cracked, evidence of its old age."
     "Moss, vines, and other vegetation have conquered the castle, grasping its high towers like a snake on a pole."
@@ -321,12 +357,30 @@ def choose(): # Player chooses what they want to do (5 options)
         print("You enter a stout shop. Potions fill the shelves on both sides of the cramped shop. A small boy sits at the cashier desk, legs swinging back and forth.")
         print("He seems too young to own a shop like this, so you assume he's the owner's son. The boy is likely not older than 10, but he has a demeanor that makes him look so much older.")
         print(" ")
-        if Player.player_weapon.name == "Fists": # Different descriptions based on current weapon
+        if Player.player_weapon.name == "Fists": # Different descriptions based on current weapon: Fists
             shop_desc_fists()
+            purchasing()
+        elif Player.player_weapon.name == "Stick": # Different descriptions based on current weapon: Stick
+            shop_desc_stick()
+            purchasing()
+        elif Player.player_weapon.name == "Wooden Sword":
+            shop_desc_wooden_sword()
+            purchasing()
+        elif Player.player_weapon.name == "Bow":
+            shop_desc_bow()
+            purchasing()
+        elif Player.player_weapon.name == "Metal Sword":
+            shop_desc_metal_sword()
+            purchasing()
+        elif Player.player_weapon.name == "Dragonblade":
+            shop_desc_dragonblade()
+            purchasing()
+        else:
+            shop_desc_lords_staff()
             purchasing()
     elif option == "5":
         print("You notice the bag that was hanging on your back. Take a look inside.")
-        print(f"Your weapons: ")
+        print("Your weapons: ")
         print_weapons()
         print(" ")
         equip = input("Do you want to equip a certain weapon? (Yes/No): ")
@@ -335,7 +389,7 @@ def choose(): # Player chooses what they want to do (5 options)
             print("Your weapons: ")
             print_weapons()
             print(" ")
-            select = input(f"Select your weapon to equip: ") # not case sensitive
+            select = input("Select your weapon to equip: ") # not case sensitive
             if bag.count(select) > 0 or bag.count(select.capitalize()) > 0:
                 if Player.player_weapon.name != select or Player.player_weapon.name.lower() != select: 
                     if select == "Stick" or select.lower() == "stick":
