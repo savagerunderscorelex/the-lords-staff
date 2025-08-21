@@ -108,11 +108,11 @@ def print_weapons():
 def left():
     print("You turn left, your heart beating with fear.")
 def right():
-    pass
+    print("You turn right, anticipating the worst.")
 def forwards(): # lieu reference????????????
-    pass
+    print("You continue on, fearing the worst blocking your path.")
 def correct():
-    print("You see that there is no obstacle in your path. You breathe a sigh of relief, and continue through the labryinth.")
+    print("You see that there is no entity in your path. You breathe a sigh of relief, and continue through the labryinth.")
 
 
 # DEATH ZONE 
@@ -187,9 +187,18 @@ def ready_player_one(): # Asking the user whether or not they will enter the maz
         choose()
 def fork_in_the_road():
     print("You walk forwards, and three paths lay in your wake. Which one will you choose? Choose wisely, or your life is at risk.")
+    global direction
     direction = input("Choose: 1: Forward, 2: Left, 3: Right") # Players choose the direction they want to go in
     if direction == "2":
         left()
+    elif direction == "1":
+        forwards()
+    elif direction == "3":
+        right()
+    else:
+        print("That is not a valid input. Try again.")
+        fork_in_the_road()
+    
 def ending(): # ending print statements once the player reaches the end of the game
     print("Thank you so much for playing.")
     play_again = input("Do you want to play again? (Y/N): ")
@@ -216,7 +225,14 @@ def ending(): # ending print statements once the player reaches the end of the g
 def maze(): # The main game: the labyrinth
     maze_description()
     ready_player_one()
-    fork_in_the_road()
+    while 1==1:
+        fork_in_the_road()
+        if direction == "1" or direction == "3":
+            print("A monster appears in your path! You must fight it before you continue on.")
+        elif direction == "2":
+            correct()
+            fork_in_the_road()    
+
 
 def purchasing(): # Function for buying things at the shop
     print(" ") # Whitespace for easier reading
