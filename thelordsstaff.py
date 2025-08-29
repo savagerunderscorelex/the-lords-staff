@@ -58,7 +58,6 @@ class Weapon():
 # Fists
 fists = Weapon(10, "Fists", 0) # decided to create an instance of the default weapon in case players would want to equip fists for whatever reason
 
-
 class Player():
     health = 100 # Player's HP, doesn't increase, but can be healed by buying potions
     money = 0 # Base money, can be increased through "Scouring"
@@ -66,12 +65,24 @@ class Player():
     player_weapon = fists # Starter weapon + base damage, decided to have both in one variable
     bag = ["Fists",] # Initializing bag, so that players can purchase multiple weapons
 
+class Enemy():
+    def __init__(self, enemy_health, enemy_name, enemy_damage):
+        self.enemy_health = enemy_health
+        self.enemy_name = enemy_name
+        self.enemy_damage = enemy_damage
+    def __str__(self):
+        return f"{self.enemy_damage}, {self.enemy_health}, {self.enemy_name}"
+    
+class Skill():
+    def __init__(self, skill_success_rate, skill_name, skill_weapon, damage_increase):
+        self.skill_success_rate = skill_success_rate
+        self.skill_name = skill_name
+        self.skill_weapons = skill_weapon
+        self.damage_increase = damage_increase
+
 # Standalone variables
 shop_choice = 0
 bag = Player.bag
-
-# Tests
-#------------------------------------ 
 
 # Weapons and their stats: Damage, Name, and shop Cost
 stick = Weapon(15, "Stick", 500)
@@ -81,6 +92,21 @@ metal_sword = Weapon(40, "Metal Sword", 7000)
 dragonblade = Weapon(200, "Dragonblade", 20000)
 lords_staff = Weapon(1000, "Lord's Staff", 10000000000) # Well, this you can't buy, but whatever. 10 billion moneys it is!!
 # ------------------------------------------------
+
+# Enemies (3 for now)
+giant_worm = Enemy(300,"Giant Worm", 20) #random.randint(20,40)
+thief = Enemy(200, "Thief", 15) #random.randint(10,35)
+werewolf = Enemy(250, "Werewolf", 20) #random.randint(15,40)
+
+#Skills 
+heavy_blow = Skill(0.8, "Heavy Blow", "All", 0.75)
+weak_slice = Skill(0.7, "Weak Slice", "Wooden Sword", 1.8)
+slice_skill = Skill(0.75, "Slice", "Metal Sword", 2)
+dragons_fury = Skill(0.8, "Dragon's Fury", "Dragonblade", 3)
+double_the_fire = Skill(0.75, "Double the Fire", "Bow", 2)
+dragonbreath = Skill(0.99, "Dragonbreath", "Dragonblade", 2)
+divine_curse = Skill(1, "Divine Curse", "Lord's Staff", 10)
+
 
 # Small Functions: Short message statements or code that does like one thing
 def equip_message():
@@ -113,6 +139,10 @@ def forwards(): # lieu reference????????????
     print("You continue on, fearing the worst blocking your path.")
 def correct():
     print("You see that there is no entity in your path. You breathe a sigh of relief, and continue through the labryinth.")
+# Weapon skill options in the maze
+def equipped_stick():
+    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100} % Damage Increase")
+
 
 
 # DEATH ZONE 
@@ -122,6 +152,7 @@ def reset_stats(): # Sets player stats to default values, only used if restartin
     Player.money = 0
     Player.health_potions = 0
     Player.bag = ["Fists",]
+#----------------------------------------------------------------------------------------------------------------
 
 # Medium Sized Functions: Functions in choose() function, since I decided to compact the choose() function a bit by turning the print statements/minor pieces of code into their own functions
 def print_player_stats(): # Prints the player's stats, duhhhhhhhhhhhhhhhhhh
@@ -228,7 +259,12 @@ def maze(): # The main game: the labyrinth
     while 1==1:
         fork_in_the_road()
         if direction == "1" or direction == "3":
-            print("A monster appears in your path! You must fight it before you continue on.")
+            print("A monster appears in your path! You must fight it before you continue on.") 
+            print("A thief, holding a sack and ransacking the treasure in the palace turns to face you.")
+            print("The thief slowly unsheathes their weapon, turning towards you with an evil grin.")
+            # 1st Monster is the thief
+            #while thief.enemy_health > 0:
+
         elif direction == "2":
             correct()
             fork_in_the_road()    
@@ -434,6 +470,9 @@ def choose(): # Player chooses what they want to do (5 options)
     else:
         print("That is not a valid option.")
         choose()
+# Tests
+print(giant_worm.enemy_damage)
+#------------------------------------ 
 
 # The game begins!!
 # Waow i can't believe this little code (not defining functions, not defining classes) is what it takes to run the program. 
