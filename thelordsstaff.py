@@ -69,12 +69,13 @@ class Player():
     bag = ["Fists",] # Initializing bag, so that players can purchase multiple weapons
 
 class Enemy():
-    def __init__(self, enemy_health, enemy_name, enemy_damage):
+    def __init__(self, enemy_health, enemy_name, enemy_damage, on_point):
         self.enemy_health = enemy_health
         self.enemy_name = enemy_name
         self.enemy_damage = enemy_damage
+        self.on_point = on_point
     def __str__(self):
-        return f"{self.enemy_damage}, {self.enemy_health}, {self.enemy_name}"
+        return f"{self.enemy_damage}, {self.enemy_health}, {self.enemy_name}, {self.on_point}"
     
 class Skill():
     def __init__(self, skill_success_rate, skill_name, skill_weapon, damage_increase):
@@ -86,7 +87,9 @@ class Skill():
 # Standalone variables
 shop_choice = 0
 bag = Player.bag
-current_enemy = "yourself"
+yourself = Enemy(100, "none", 10, 0.0)
+current_enemy = yourself
+
 
 # Weapons and their stats: Damage, Name, and shop Cost
 stick = Weapon(15, "Stick", 500)
@@ -98,9 +101,9 @@ lords_staff = Weapon(1000, "Lord's Staff", 10000000000) # Well, this you can't b
 # ------------------------------------------------
 
 # Enemies (3 for now)
-giant_worm = Enemy(300.0,"Giant Worm", 20) #random.randint(20,40)
-thief = Enemy(200.0, "Thief", 15) #random.randint(10,35)
-werewolf = Enemy(250.0, "Werewolf", 20) #random.randint(15,40)
+giant_worm = Enemy(300.0,"Giant Worm", 20, 0.6) #random.randint(20,40)
+thief = Enemy(200.0, "Thief", 15, 0.75) #random.randint(10,35)
+werewolf = Enemy(250.0, "Werewolf", 20, 0.9) #random.randint(15,40)
 
 #Skills 
 heavy_blow = Skill(0.8, "Heavy Blow", "All", 1.75)
@@ -136,6 +139,24 @@ def message_of_death():
     choose()
     Player.health = 100
 #-----------------------------------------------------------------
+#Enemy Descriptions
+def giant_worm_desc():
+    print(" ")
+    print("A monster appears in your path! You must fight it before you continue on.")
+    print("A giant worm slithers about the room, its teeth gnashing against each other.")
+    print("As soon as it hears your footsteps, it turns its head, hungry for some human meat.")
+    print(" ")
+def werewolf_desc():
+    print(" ")
+    print("A monster appears in your path! You must fight it before you continue on.")
+    print("A werewolf, covered in blood, hunches over the body of a previous explorer.")
+    print("Its ears perk up, and the werewolf bears its fangs menacingly, thirsty for blood.")
+def thief_desc():
+    print(" ")
+    print("A monster appears in your path! You must fight it before you continue on.") 
+    print("A thief, holding a sack and ransacking the treasure in the palace turns to face you.")
+    print("The thief slowly unsheathes their weapon, turning towards you with an evil grin.")
+    print(" ")
 # Shop 
 def add_weapon(bag, shop_choice):
     if shop_choice == "1":
@@ -157,19 +178,19 @@ def equipped_stick():
     skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase ")
 def equipped_wooden_sword():
     global skilled
-    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 2:{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase ")
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 2: {weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase ")
 def equipped_metal_sword():
     global skilled
-    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 2:{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase, 3:{slice_skill.skill_name}: {slice_skill.skill_success_rate * 100}% Success Rate, {slice_skill.damage_increase * 100}% Damage Increase ")
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 2: {weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase, 3: {slice_skill.skill_name}: {slice_skill.skill_success_rate * 100}% Success Rate, {slice_skill.damage_increase * 100}% Damage Increase ")
 def equipped_bow():
     global skilled
-    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 4:{double_the_fire.skill_name}: {double_the_fire.skill_success_rate * 100}% Success Rate, {double_the_fire.damage_increase * 100}% Damage Increase ")
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 4: {double_the_fire.skill_name}: {double_the_fire.skill_success_rate * 100}% Success Rate, {double_the_fire.damage_increase * 100}% Damage Increase ")
 def equipped_dragonblade():
     global skilled
-    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 5:{dragonbreath.skill_name}: {dragonbreath.skill_success_rate * 100}% Success Rate, {dragonbreath.damage_increase * 100}% Damage Increase, 6:{dragons_fury.skill_name}: {dragons_fury.skill_success_rate * 100}% Success Rate, {dragons_fury.damage_increase * 100}% Damage Increase ")
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 5: {dragonbreath.skill_name}: {dragonbreath.skill_success_rate * 100}% Success Rate, {dragonbreath.damage_increase * 100}% Damage Increase, 6: {dragons_fury.skill_name}: {dragons_fury.skill_success_rate * 100}% Success Rate, {dragons_fury.damage_increase * 100}% Damage Increase ")
 def equipped_lords_staff():
     global skilled
-    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 7:{divine_curse.skill_name}: {divine_curse.skill_success_rate * 100}% Success Rate, {divine_curse.damage_increase * 100}% Damage Increase ")
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 7: {divine_curse.skill_name}: {divine_curse.skill_success_rate * 100}% Success Rate, {divine_curse.damage_increase * 100}% Damage Increase ")
 #-------------------------------------
 
 
@@ -309,7 +330,7 @@ def basic_choices():
     elif action == "3":
         pass
     elif action == "4":
-        print("Scared, you run away from the thief and out of the maze.")
+        print(f"Scared, you run away from the {current_enemy.enemy_name} and out of the maze.")
         ready_player_one()
     else:
         print("Invalid option.")
@@ -317,10 +338,11 @@ def basic_choices():
 # ---------------------------Stick vs. Enemy
 def attack_stick_giant_worm():
     current_enemy = giant_worm
+    hurt = giant_worm.on_point
     if skilled == "1":
         if random.random() < heavy_blow.skill_success_rate:
             hit_points = stick.damage * heavy_blow.damage_increase
-            if random.random() < 0.6:
+            if random.random() < hurt:
                 current_enemy.enemy_damage = random.randint(5,30)
                 Player.health -= current_enemy.enemy_damage
                 print(" ")
@@ -346,14 +368,14 @@ def attack_stick_giant_worm():
         print("Invalid option.")
         equipped_stick()
         attack_stick_giant_worm()
-
 def attack_stick_thief():
     current_enemy = thief
+    hurt = thief.on_point
     if skilled == "1":
         if random.random() < heavy_blow.skill_success_rate:
             hit_points = stick.damage * heavy_blow.damage_increase
-            if random.random() < 0.75:
-                current_enemy.enemy_damage = random.randint(5,20)
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
                 Player.health -= current_enemy.enemy_damage
                 print(" ")
                 print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
@@ -367,21 +389,25 @@ def attack_stick_thief():
             print(" ")
             basic_choices()
         else:
-            print(" ")
-            print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
-            print(" ")
-            basic_choices()    
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
     else:
         print("Invalid option.")
         equipped_stick()
         attack_stick_thief()
 def attack_stick_werewolf():
     current_enemy = werewolf
+    hurt = werewolf.on_point
     if skilled == "1":
         if random.random() < heavy_blow.skill_success_rate:
             hit_points = stick.damage * heavy_blow.damage_increase
-            if random.random() < 0.75:
-                current_enemy.enemy_damage = random.randint(5,40)
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
                 Player.health -= current_enemy.enemy_damage
                 print(" ")
                 print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
@@ -395,21 +421,27 @@ def attack_stick_werewolf():
             print(" ")
             basic_choices()
         else:
-            print(" ")
-            print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
-            print(" ")
-            basic_choices()    
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
     else:
         print("Invalid option.")
         equipped_stick()
         attack_stick_werewolf()
+
+
 #-------------------------------Wooden Sword vs. Enemy
 def attack_wooden_giant_worm():
     current_enemy = giant_worm
+    hurt = giant_worm.on_point
     if skilled == "1":
         if random.random() < heavy_blow.skill_success_rate:
-            hit_points = wooden_sword.damage * heavy_blow.damage_increase
-            if random.random() < 0.6:
+            hit_points = stick.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
                 current_enemy.enemy_damage = random.randint(5,30)
                 Player.health -= current_enemy.enemy_damage
                 print(" ")
@@ -432,34 +464,34 @@ def attack_wooden_giant_worm():
                 print(" ")
                 basic_choices() 
     elif skilled == "2":
-        if random.random() < weak_slice.skill_success_rate:
-            hit_points = wooden_sword.damage * weak_slice.damage_increase
-            if random.random() < 0.75:
-                current_enemy.enemy_damage = random.randint(5,40)
-                Player.health -= current_enemy.enemy_damage
+            if random.random() < weak_slice.skill_success_rate:
+                hit_points = wooden_sword.damage * weak_slice.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
                 print(" ")
-                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
-            else:
-                current_enemy.enemy_damage = 0
-                print(" ")
-                print(f"The {current_enemy.enemy_name} missed!")
-            print(f"You hit {hit_points} amount of damage!")
-            current_enemy.enemy_health -= hit_points
-            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
-            print(" ")
-            basic_choices()
+                basic_choices()
     else:
         print("Invalid option.")
         equipped_wooden_sword()
         attack_wooden_giant_worm()
-
 def attack_wooden_thief():
     current_enemy = thief
+    hurt = thief.on_point
     if skilled == "1":
         if random.random() < heavy_blow.skill_success_rate:
-            hit_points = wooden_sword.damage * heavy_blow.damage_increase
-            if random.random() < 0.75:
-                current_enemy.enemy_damage = random.randint(5,20)
+            hit_points = stick.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
                 Player.health -= current_enemy.enemy_damage
                 print(" ")
                 print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
@@ -473,38 +505,42 @@ def attack_wooden_thief():
             print(" ")
             basic_choices()
         else:
-            print(" ")
-            print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
-            print(" ")
-            basic_choices()
-    elif skilled == "2":
-        if random.random() < weak_slice.skill_success_rate:
-            hit_points = wooden_sword.damage * weak_slice.damage_increase
-            if random.random() < 0.75:
-                current_enemy.enemy_damage = random.randint(5,40)
-                Player.health -= current_enemy.enemy_damage
-                print(" ")
-                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            if Player.health < 1:
+                pass
             else:
-                current_enemy.enemy_damage = 0
                 print(" ")
-                print(f"The {current_enemy.enemy_name} missed!")
-            print(f"You hit {hit_points} amount of damage!")
-            current_enemy.enemy_health -= hit_points
-            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
-            print(" ")
-            basic_choices()    
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "2":
+            if random.random() < weak_slice.skill_success_rate:
+                hit_points = wooden_sword.damage * weak_slice.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
     else:
         print("Invalid option.")
         equipped_wooden_sword()
         attack_wooden_thief()
 def attack_wooden_werewolf():
     current_enemy = werewolf
+    hurt = werewolf.on_point
     if skilled == "1":
         if random.random() < heavy_blow.skill_success_rate:
-            hit_points = wooden_sword.damage * heavy_blow.damage_increase
-            if random.random() < 0.75:
-                current_enemy.enemy_damage = random.randint(5,40)
+            hit_points = stick.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
                 Player.health -= current_enemy.enemy_damage
                 print(" ")
                 print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
@@ -518,15 +554,43 @@ def attack_wooden_werewolf():
             print(" ")
             basic_choices()
         else:
-            print(" ")
-            print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
-            print(" ")
-            basic_choices()    
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
     elif skilled == "2":
-        if random.random() < weak_slice.skill_success_rate:
-            hit_points = wooden_sword.damage * weak_slice.damage_increase
-            if random.random() < 0.75:
-                current_enemy.enemy_damage = random.randint(5,40)
+            if random.random() < weak_slice.skill_success_rate:
+                hit_points = wooden_sword.damage * weak_slice.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_wooden_sword()
+        attack_wooden_werewolf()
+#-------------------------------------------------Metal Sword vs. Enemy
+def attack_metal_giant_worm():
+    current_enemy = giant_worm
+    hurt = giant_worm.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = metal_sword.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
                 Player.health -= current_enemy.enemy_damage
                 print(" ")
                 print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
@@ -539,30 +603,685 @@ def attack_wooden_werewolf():
             print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
             print(" ")
             basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "2":
+            if random.random() < weak_slice.skill_success_rate:
+                hit_points = metal_sword.damage * weak_slice.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    elif skilled == "3":
+            if random.random() < slice_skill.skill_success_rate:
+                hit_points = metal_sword.damage * slice_skill.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
     else:
         print("Invalid option.")
-        equipped_wooden_sword()
-        attack_wooden_werewolf()
-
-
-
-
-
-
+        equipped_metal_sword()
+        attack_metal_giant_worm()
+def attack_metal_thief():
+    current_enemy = thief
+    hurt = thief.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = metal_sword.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "2":
+            if random.random() < weak_slice.skill_success_rate:
+                hit_points = metal_sword.damage * weak_slice.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    elif skilled == "3":
+            if random.random() < slice_skill.skill_success_rate:
+                hit_points = metal_sword.damage * slice_skill.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_metal_sword()
+        attack_metal_thief()
+def attack_metal_werewolf():
+    current_enemy = werewolf
+    hurt = werewolf.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = metal_sword.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "2":
+            if random.random() < weak_slice.skill_success_rate:
+                hit_points = metal_sword.damage * weak_slice.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    elif skilled == "3":
+            if random.random() < slice_skill.skill_success_rate:
+                hit_points = metal_sword.damage * slice_skill.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_metal_sword()
+        attack_metal_werewolf()
+#-----------------------------------------------------
+#---------------------------------------------Dragonblade vs Enemy
+def attack_dragonblade_giant_worm():
+    current_enemy = giant_worm
+    hurt = giant_worm.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = dragonblade.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "5":
+            if random.random() < dragonbreath.skill_success_rate:
+                hit_points = dragonblade.damage * dragonbreath.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    elif skilled == "6":
+            if random.random() < dragons_fury.skill_success_rate:
+                hit_points = dragonblade.damage * dragons_fury.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_dragonblade()
+        attack_dragonblade_giant_worm()
+def attack_dragonblade_thief():
+    current_enemy = thief
+    hurt = thief.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = dragonblade.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "5":
+            if random.random() < dragonbreath.skill_success_rate:
+                hit_points = dragonblade.damage * dragonbreath.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    elif skilled == "6":
+            if random.random() < dragons_fury.skill_success_rate:
+                hit_points = dragonblade.damage * dragons_fury.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_dragonblade()
+        attack_dragonblade_thief()
+def attack_dragonblade_werewolf():
+    current_enemy = werewolf
+    hurt = werewolf.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = dragonblade.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "5":
+            if random.random() < dragonbreath.skill_success_rate:
+                hit_points = dragonblade.damage * dragonbreath.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    elif skilled == "6":
+            if random.random() < dragons_fury.skill_success_rate:
+                hit_points = dragonblade.damage * dragons_fury.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_dragonblade()
+        attack_dragonblade_werewolf()
 #-----------------------------------------------------------
-def giant_worm_desc():
-    print(" ")
-    print("A monster appears in your path! You must fight it before you continue on.")
-    print("A giant worm slithers about the room, its teeth gnashing against each other.")
-    print("As soon as it hears your footsteps, it turns its head, hungry for some human meat.")
-    print(" ")
-def werewolf_desc():
-    print(" ")
-    print("A monster appears in your path! You must fight it before you continue on.")
-    print("A werewolf, covered in blood, hunches over the body of a previous explorer.")
-    print("Its ears perk up, and the werewolf bears its fangs menacingly, thirsty for blood.")
 
+#-----------------------------------------------------------Lord's Staff vs. Enemy
+def attack_staff_giant_worm():
+    current_enemy = giant_worm
+    hurt = giant_worm.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = lords_staff.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "7":
+            if random.random() < divine_curse.skill_success_rate:
+                hit_points = lords_staff.damage * divine_curse.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_lords_staff()
+        attack_staff_giant_worm()
+def attack_staff_thief():
+    current_enemy = thief
+    hurt = thief.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = lords_staff.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "7":
+            if random.random() < divine_curse.skill_success_rate:
+                hit_points = lords_staff.damage * divine_curse.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_lords_staff()
+        attack_staff_thief()
+def attack_staff_werewolf():
+    current_enemy = werewolf
+    hurt = werewolf.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = lords_staff.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "7":
+            if random.random() < divine_curse.skill_success_rate:
+                hit_points = lords_staff.damage * divine_curse.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_lords_staff()
+        attack_staff_werewolf()
+#--------------------------------------------------------------
 
+#---------------------------------------------------------------Bow vs Enemy
+def attack_bow_giant_worm():
+    current_enemy = giant_worm
+    hurt = giant_worm.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = bow.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "4":
+            if random.random() < double_the_fire.skill_success_rate:
+                hit_points = bow.damage * double_the_fire.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_bow()
+        attack_bow_giant_worm()
+def attack_bow_thief():
+    current_enemy = thief
+    hurt = thief.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = bow.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "4":
+            if random.random() < double_the_fire.skill_success_rate:
+                hit_points = bow.damage * double_the_fire.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_bow()
+        attack_bow_thief()
+def attack_bow_werewolf():
+    current_enemy = werewolf
+    hurt = werewolf.on_point
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = bow.damage * heavy_blow.damage_increase
+            if random.random() < hurt:
+                current_enemy.enemy_damage = random.randint(5,30)
+                Player.health -= current_enemy.enemy_damage
+                print(" ")
+                print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+            else:
+                current_enemy.enemy_damage = 0
+                print(" ")
+                print(f"The {current_enemy.enemy_name} missed!")
+            print(f"You hit {hit_points} amount of damage!")
+            current_enemy.enemy_health -= hit_points
+            print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+            print(" ")
+            basic_choices()
+        else:
+            if Player.health < 1:
+                pass
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                print(" ")
+                basic_choices() 
+    elif skilled == "4":
+            if random.random() < double_the_fire.skill_success_rate:
+                hit_points = bow.damage * double_the_fire.damage_increase
+                if random.random() < hurt:
+                    current_enemy.enemy_damage = random.randint(5,40)
+                    Player.health -= current_enemy.enemy_damage
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} did {current_enemy.enemy_damage} damage!")
+                else:
+                    current_enemy.enemy_damage = 0
+                    print(" ")
+                    print(f"The {current_enemy.enemy_name} missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                current_enemy.enemy_health -= hit_points
+                print(f"The {current_enemy.enemy_name} has {current_enemy.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+    else:
+        print("Invalid option.")
+        equipped_bow()
+        attack_bow_werewolf()
+#------------------------------------------------------------------------
 # HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
 def maze(): # The main game: the labyrinth
     maze_description()
@@ -570,11 +1289,7 @@ def maze(): # The main game: the labyrinth
     while 1==1:
         fork_in_the_road()
         if direction == "1" or direction == "3":
-            print(" ")
-            print("A monster appears in your path! You must fight it before you continue on.") 
-            print("A thief, holding a sack and ransacking the treasure in the palace turns to face you.")
-            print("The thief slowly unsheathes their weapon, turning towards you with an evil grin.")
-            print(" ")
+            thief_desc()
             # 1st Monster is the thief
             basic_choices()
             if Player.player_weapon == stick:
