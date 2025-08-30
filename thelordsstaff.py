@@ -131,6 +131,10 @@ def forwards(): # lieu reference????????????
     print("You continue on, fearing the worst blocking your path.")
 def correct():
     print("You see that there is no entity in your path. You breathe a sigh of relief, and continue through the labryinth.")
+def message_of_death():
+    print("You Died.")
+    choose()
+    Player.health = 100
 #-----------------------------------------------------------------
 # Shop 
 def add_weapon(bag, shop_choice):
@@ -296,6 +300,7 @@ def basic_choices():
                 Player.health_potions -= 1
             else: 
                 print("You do not have enough potions.")
+                basic_choices()
         else:
             print("You don't need potions.")
     elif action == "2":
@@ -310,23 +315,73 @@ def basic_choices():
         print("Invalid option.")
         basic_choices()
 
-def attack_stick():
+def attack_stick_giant_worm():
     if skilled == "1":
-        if random.random() < heavy_blow.skill_success_rate:
-            hit_points = stick.damage * heavy_blow.damage_increase
-            print(f"You hit {hit_points} amount of damage!")
-            print(f"")
-            thief.enemy_health -= hit_points
-            print(f"The thief has {thief.enemy_health} health left!")
-            basic_choices()
+        if Player.health < 1 or giant_worm.enemy_health < 1:
+            pass
         else:
-            print("Your attack didn't hit!")
-            basic_choices()
+            if random.random() < heavy_blow.skill_success_rate:
+                hit_points = stick.damage * heavy_blow.damage_increase
+                if random.random() < 0.6:
+                    giant_worm.enemy_damage = random.randint(5,30)
+                    Player.health -= giant_worm.enemy_damage
+                    print(" ")
+                    print(f"The Giant Worm did {giant_worm.enemy_damage} damage!")
+                else:
+                    giant_worm.enemy_damage = 0
+                    print(" ")
+                    print("The Giant Worm missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                giant_worm.enemy_health -= hit_points
+                print(f"The Giant Worm has {giant_worm.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+            else:
+                if Player.health < 1:
+                    pass
+                else:
+                    print(" ")
+                    print(f"Your attack didn't hit, but the Giant Worm did {giant_worm.enemy_damage} damage!")
+                    print(" ")
+                    basic_choices()
             
     else:
         print("Invalid option.")
         equipped_stick()
-        attack_stick()
+        attack_stick_giant_worm()
+
+def attack_stick_thief():
+    if skilled == "1":
+        if Player.health < 1 or giant_worm.enemy_health < 1:
+            pass
+        else:
+            if random.random() < heavy_blow.skill_success_rate:
+                hit_points = stick.damage * heavy_blow.damage_increase
+                if random.random() < 0.75:
+                    thief.enemy_damage = random.randint(5,20)
+                    Player.health -= thief.enemy_damage
+                    print(" ")
+                    print(f"The thief did {thief.enemy_damage} damage!")
+                else:
+                    thief.enemy_damage = 0
+                    print(" ")
+                    print("The thief missed!")
+                print(f"You hit {hit_points} amount of damage!")
+                thief.enemy_health -= hit_points
+                print(f"The thief has {thief.enemy_health} health left!")
+                print(" ")
+                basic_choices()
+            else:
+                print(" ")
+                print(f"Your attack didn't hit, but the thief did {thief.enemy_damage} damage!")
+                print(" ")
+                basic_choices()
+                
+    else:
+        print("Invalid option.")
+        equipped_stick()
+        attack_stick_thief()
+
 
 
 
@@ -344,27 +399,62 @@ def maze(): # The main game: the labyrinth
             print(" ")
             # 1st Monster is the thief
             basic_choices()
-            while Player.health > 0 and thief.enemy_health > 0:
-                    if Player.player_weapon == stick:
-                        equipped_stick()
-                        attack_stick()
-                        if thief.enemy_health > 0:
-                            if random.random() < 0.75:
-                                thief.enemy_damage = random.randint(5,20)
-                                Player.health -= thief.enemy_damage
-                                print(f"The thief did {thief.enemy_damage} damage!")
+            if Player.player_weapon == stick:
+                while Player.health > 0 and thief.enemy_health > 0:
+                    equipped_stick()
+                    attack_stick_thief()
+                else:
+                    pass
+                if Player.health > 0 and thief.enemy_health < 1:
+                    print(" ")
+                    print("You've defeated the thief!")
+                    print(" ")
+                    Player.money +=100
+                    fork_in_the_road()
+                    if direction == "1" or direction == "2":
+                        print(" ")
+                        print("A monster appears in your path! You must fight it before you continue on.")
+                        print("A giant worm slithers about the room, its teeth gnashing against each other.")
+                        print("As soon as it hears your footsteps, it turns its head, hungry for some human meat.")
+                        print(" ")
+                        # 2nd Monster is Giant Worm
+                        basic_choices()
+                        if Player.player_weapon == stick:
+                            while Player.health > 0 and giant_worm.enemy_health > 0:
+                                equipped_stick()
+                                attack_stick_giant_worm()
                             else:
-                                print("The thief missed!")
-                        else:
-                            Player.money +=100
-                            fork_in_the_road()
-                    elif Player.player_weapon == wooden_sword:
-                        print("hi")
+                                pass
+                            if Player.health > 0 and giant_worm.enemy_health < 1:
+                                print(" ")
+                                print("You've defeated the Giant Worm!")
+                                print(" ")
+                                Player.money +=100
+                                fork_in_the_road()
+                            else:
+                                message_of_death()
+                            
 
+                    elif direction == "3":
+                        correct()
+                        fork_in_the_road()
+                else: 
+                    message_of_death()
+            else:
+                pass
 
         elif direction == "2":
             correct()
-            fork_in_the_road()    
+            fork_in_the_road()
+            if direction == "1" or direction == "2":
+                print(" ")
+                print("A monster appears in your path! You must fight it before you continue on.")
+                print("A giant worm slithers about the room, its teeth gnashing against each other.")
+                print("As soon as it hears your footsteps, it turns its head, hungry for some human meat.")
+                print(" ")  
+            elif direction == "3":
+                correct()
+                fork_in_the_road()  
 
 
 def purchasing(): # Function for buying things at the shop
