@@ -6,6 +6,8 @@ Short Description:
 The Lord’s Staff is a story game that could be played in your command line. You awake in a village, with no knowledge of your name, who you are, where you came from, or even why you’re here. The only things you have are a couple of coins in your pocket, a sack on your back, and the overwhelming feeling to find something. The Lord’s Staff. 
 The Lord’s Staff is a powerful weapon, worth more than the pockets of the wealthiest person on the planet. You know you should look for it, but with any valuable object up for grabs, others would want it too. You have to enter the castle’s maze, and turn the correct way to get to the Staff without losing your life. 
 
+For the Athena Award
+[![Athena Award Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Faward.athena.hackclub.com%2Fapi%2Fbadge)](https://award.athena.hackclub.com?utm_source=readme)
 # My Coding Background
 
 I am a new(ish) programmer, which is why this project took me as long as it did. I decided to learn programming around this time last year, since I graduated from middle school and wanted to do self-improvement by learning things like programming, improving my drawing, and getting back into writing again. I found my life boring at the time because I didn't do my hobbies all that much. So learning about new things, especially programming,  helped me enjoy my life a lot better.
