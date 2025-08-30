@@ -2381,7 +2381,7 @@ def choose(): # Player chooses what they want to do (5 options)
         print("That is not a valid option.")
         choose()
 # Tests
-Player.player_weapon = stick
+
 #------------------------------------ 
 
 # The game begins!!
