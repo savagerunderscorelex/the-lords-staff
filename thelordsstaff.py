@@ -335,6 +335,15 @@ def basic_choices():
     else:
         print("Invalid option.")
         basic_choices()
+def ending_sequence():
+    bag.append("Lord's Staff")
+    print(" ")
+    print("Finally, you have reached the end. A glow of light fills the last room, blinding your eyes for just a moment.")
+    print("There in all its glory, lies the Lord's Staff. Adorned with precious jewels, and laced with gold, it makes a gentle hum as you approach.")
+    print("You grabn the Staff, careful not to damage its body. The aching yearning for the Staff has finally washed away, relief and accomplishment left in its wake.")
+    print("You did it. You've obtained the Lord's Staff.")
+    ending()
+
 # ---------------------------Stick vs. Enemy
 def attack_stick_giant_worm():
     current_enemy = giant_worm
@@ -1284,91 +1293,901 @@ def attack_bow_werewolf():
 #------------------------------------------------------------------------
 # HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
 def maze(): # The main game: the labyrinth
+    reward = 250
     maze_description()
     ready_player_one()
     while 1==1:
-        fork_in_the_road()
-        if direction == "1" or direction == "3":
-            thief_desc()
-            # 1st Monster is the thief
-            basic_choices()
-            if Player.player_weapon == stick:
-                while Player.health > 0 and thief.enemy_health > 0:
+#----------------Current Weapon: Stick
+        if Player.player_weapon == stick:
+            fork_in_the_road()
+            if direction == "1" or direction == "3":
+                current_enemy = thief
+                thief_desc()
+                # 1st Monster is the thief
+                basic_choices()
+                while Player.health > 0 and current_enemy.enemy_health > 0:
                     equipped_stick()
                     attack_stick_thief()
                 else:
-                    if Player.health > 0 and thief.enemy_health < 1:
+                    if Player.health > 0 and current_enemy.enemy_health < 1:
                         print(" ")
-                        print("You've defeated the thief!")
+                        print(f"You've defeated the {current_enemy.enemy_name}")
                         print(" ")
-                        Player.money +=100
+                        Player.money +=reward
                         fork_in_the_road()
                         if direction == "1" or direction == "2":
+                            current_enemy = giant_worm
                             giant_worm_desc()
                             # 2nd Monster is Giant Worm
                             basic_choices()
-                            while Player.health > 0 and giant_worm.enemy_health > 0:
+                            while Player.health > 0 and current_enemy.enemy_health > 0:
                                 equipped_stick()
                                 attack_stick_giant_worm()
                             else:
-                                if Player.health > 0 and giant_worm.enemy_health < 1:
+                                if Player.health > 0 and current_enemy.enemy_health < 1:
                                     print(" ")
-                                    print("You've defeated the Giant Worm!")
+                                    print(f"You've defeated the {current_enemy.enemy_name}!")
                                     print(" ")
-                                    Player.money +=100
+                                    Player.money +=reward
                                     fork_in_the_road()
                                     if direction == "2" or direction == "3":
+                                        current_enemy = werewolf
                                         werewolf_desc()
                                         # 3rd Monster is werewolf
                                         basic_choices()
-                                        while Player.health > 0 and werewolf.enemy_health > 0:
+                                        while Player.health > 0 and current_enemy.enemy_health > 0:
                                             equipped_stick()
                                             attack_stick_werewolf()
+                                        else:
+                                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                                print(" ")
+                                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                                print(" ")
+                                                Player.money +=reward
+                                                ending_sequence()
+                                            else:
+                                                message_of_death()
                                     else:
                                         correct()
+                                        ending_sequence()
                                 else:
                                     message_of_death()
-                                
-
-                        elif direction == "3":
+                        else:
                             correct()
                             fork_in_the_road()
-                    else: 
-                        message_of_death()
-            elif Player.player_weapon == wooden_sword:
-                pass
-            elif Player.player_weapon == metal_sword:
-                pass
-            elif Player.player_weapon == bow:
-                pass
-            elif Player.player_weapon == dragonblade:
-                pass
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_stick()
+                                    attack_stick_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
 
-        elif direction == "2":
-            correct()
-            fork_in_the_road()
-            if direction == "1" or direction == "2":
-                print(" ")
-                print("A monster appears in your path! You must fight it before you continue on.")
-                print("A giant worm slithers about the room, its teeth gnashing against each other.")
-                print("As soon as it hears your footsteps, it turns its head, hungry for some human meat.")
-                print(" ")  
-            elif direction == "3":
+            else:
                 correct()
-                fork_in_the_road()  
+                fork_in_the_road()
+                if direction == "1" or direction == "2":
+                    current_enemy = giant_worm
+                    giant_worm_desc()
+                    # 2nd Monster is Giant Worm
+                    basic_choices()
+                    while Player.health > 0 and current_enemy.enemy_health > 0:
+                        equipped_stick()
+                        attack_stick_giant_worm()
+                    else:
+                        if Player.health > 0 and current_enemy.enemy_health < 1:
+                            print(" ")
+                            print(f"You've defeated the {current_enemy.enemy_name}!")
+                            print(" ")
+                            Player.money +=reward
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_stick()
+                                    attack_stick_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+                        else:
+                            message_of_death()
+                else:
+                    correct()
+                    fork_in_the_road()
+                    if direction == "2" or direction == "3":
+                        current_enemy = werewolf
+                        werewolf_desc()
+                        # 3rd Monster is werewolf
+                        basic_choices()
+                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                            equipped_stick()
+                            attack_stick_werewolf()
+                        else:
+                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                print(" ")
+                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                print(" ")
+                                Player.money +=reward
+                                ending_sequence()
+                            else:
+                                message_of_death()
+                    else:
+                        correct()
+                        ending_sequence()
+#--------------------------------------Weapon: Wooden Sword
+        elif Player.player_weapon == wooden_sword:
+            fork_in_the_road()
+            if direction == "1" or direction == "3":
+                current_enemy = thief
+                thief_desc()
+                # 1st Monster is the thief
+                basic_choices()
+                while Player.health > 0 and current_enemy.enemy_health > 0:
+                    equipped_wooden_sword()
+                    attack_wooden_thief()
+                else:
+                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                        print(" ")
+                        print(f"You've defeated the {current_enemy.enemy_name}")
+                        print(" ")
+                        Player.money +=reward
+                        fork_in_the_road()
+                        if direction == "1" or direction == "2":
+                            current_enemy = giant_worm
+                            giant_worm_desc()
+                            # 2nd Monster is Giant Worm
+                            basic_choices()
+                            while Player.health > 0 and current_enemy.enemy_health > 0:
+                                equipped_wooden_sword()
+                                attack_wooden_giant_worm()
+                            else:
+                                if Player.health > 0 and current_enemy.enemy_health < 1:
+                                    print(" ")
+                                    print(f"You've defeated the {current_enemy.enemy_name}!")
+                                    print(" ")
+                                    Player.money +=reward
+                                    fork_in_the_road()
+                                    if direction == "2" or direction == "3":
+                                        current_enemy = werewolf
+                                        werewolf_desc()
+                                        # 3rd Monster is werewolf
+                                        basic_choices()
+                                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                                            equipped_wooden_sword()
+                                            attack_wooden_werewolf()
+                                        else:
+                                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                                print(" ")
+                                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                                print(" ")
+                                                Player.money +=reward
+                                                ending_sequence()
+                                            else:
+                                                message_of_death()
+                                    else:
+                                        correct()
+                                        ending_sequence()
+                                else:
+                                    message_of_death()
+                        else:
+                            correct()
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_wooden_sword()
+                                    attack_wooden_thief()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+
+            else:
+                correct()
+                fork_in_the_road()
+                if direction == "1" or direction == "2":
+                    current_enemy = giant_worm
+                    giant_worm_desc()
+                    # 2nd Monster is Giant Worm
+                    basic_choices()
+                    while Player.health > 0 and current_enemy.enemy_health > 0:
+                        equipped_wooden_sword()
+                        attack_wooden_giant_worm()
+                    else:
+                        if Player.health > 0 and current_enemy.enemy_health < 1:
+                            print(" ")
+                            print(f"You've defeated the {current_enemy.enemy_name}!")
+                            print(" ")
+                            Player.money +=reward
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_wooden_sword()
+                                    attack_wooden_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+                        else:
+                            message_of_death()
+                else:
+                    correct()
+                    fork_in_the_road()
+                    if direction == "2" or direction == "3":
+                        current_enemy = werewolf
+                        werewolf_desc()
+                        # 3rd Monster is werewolf
+                        basic_choices()
+                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                            equipped_wooden_sword()
+                            attack_wooden_werewolf()
+                        else:
+                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                print(" ")
+                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                print(" ")
+                                Player.money +=reward
+                                ending_sequence()
+                            else:
+                                message_of_death()
+                    else:
+                        correct()
+                        ending_sequence()
+#------------------------Weapon: Metal Sword
+        elif Player.player_weapon == metal_sword:
+            fork_in_the_road()
+            if direction == "1" or direction == "3":
+                current_enemy = thief
+                thief_desc()
+                # 1st Monster is the thief
+                basic_choices()
+                while Player.health > 0 and current_enemy.enemy_health > 0:
+                    equipped_metal_sword()
+                    attack_metal_thief()
+                else:
+                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                        print(" ")
+                        print(f"You've defeated the {current_enemy.enemy_name}")
+                        print(" ")
+                        Player.money +=reward
+                        fork_in_the_road()
+                        if direction == "1" or direction == "2":
+                            current_enemy = giant_worm
+                            giant_worm_desc()
+                            # 2nd Monster is Giant Worm
+                            basic_choices()
+                            while Player.health > 0 and current_enemy.enemy_health > 0:
+                                equipped_metal_sword()
+                                attack_metal_giant_worm()
+                            else:
+                                if Player.health > 0 and current_enemy.enemy_health < 1:
+                                    print(" ")
+                                    print(f"You've defeated the {current_enemy.enemy_name}!")
+                                    print(" ")
+                                    Player.money +=reward
+                                    fork_in_the_road()
+                                    if direction == "2" or direction == "3":
+                                        current_enemy = werewolf
+                                        werewolf_desc()
+                                        # 3rd Monster is werewolf
+                                        basic_choices()
+                                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                                            equipped_metal_sword()
+                                            attack_metal_werewolf()
+                                        else:
+                                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                                print(" ")
+                                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                                print(" ")
+                                                Player.money +=reward
+                                                ending_sequence()
+                                            else:
+                                                message_of_death()
+                                    else:
+                                        correct()
+                                        ending_sequence()
+                                else:
+                                    message_of_death()
+                        else:
+                            correct()
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_metal_sword()
+                                    attack_metal_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+
+            else:
+                correct()
+                fork_in_the_road()
+                if direction == "1" or direction == "2":
+                    current_enemy = giant_worm
+                    giant_worm_desc()
+                    # 2nd Monster is Giant Worm
+                    basic_choices()
+                    while Player.health > 0 and current_enemy.enemy_health > 0:
+                        equipped_metal_sword()
+                        attack_metal_giant_worm()
+                    else:
+                        if Player.health > 0 and current_enemy.enemy_health < 1:
+                            print(" ")
+                            print(f"You've defeated the {current_enemy.enemy_name}!")
+                            print(" ")
+                            Player.money +=reward
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_metal_sword()
+                                    attack_metal_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+                        else:
+                            message_of_death()
+                else:
+                    correct()
+                    fork_in_the_road()
+                    if direction == "2" or direction == "3":
+                        current_enemy = werewolf
+                        werewolf_desc()
+                        # 3rd Monster is werewolf
+                        basic_choices()
+                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                            equipped_metal_sword()
+                            attack_metal_werewolf()
+                        else:
+                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                print(" ")
+                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                print(" ")
+                                Player.money +=reward
+                                ending_sequence()
+                            else:
+                                message_of_death()
+                    else:
+                        correct()
+                        ending_sequence()
+#------------------------Weapon: Bow
+
+        elif Player.player_weapon == bow:
+            fork_in_the_road()
+            if direction == "1" or direction == "3":
+                current_enemy = thief
+                thief_desc()
+                # 1st Monster is the thief
+                basic_choices()
+                while Player.health > 0 and current_enemy.enemy_health > 0:
+                    equipped_bow()
+                    attack_bow_thief()
+                else:
+                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                        print(" ")
+                        print(f"You've defeated the {current_enemy.enemy_name}")
+                        print(" ")
+                        Player.money +=reward
+                        fork_in_the_road()
+                        if direction == "1" or direction == "2":
+                            current_enemy = giant_worm
+                            giant_worm_desc()
+                            # 2nd Monster is Giant Worm
+                            basic_choices()
+                            while Player.health > 0 and current_enemy.enemy_health > 0:
+                                equipped_bow()
+                                attack_bow_giant_worm()
+                            else:
+                                if Player.health > 0 and current_enemy.enemy_health < 1:
+                                    print(" ")
+                                    print(f"You've defeated the {current_enemy.enemy_name}!")
+                                    print(" ")
+                                    Player.money +=reward
+                                    fork_in_the_road()
+                                    if direction == "2" or direction == "3":
+                                        current_enemy = werewolf
+                                        werewolf_desc()
+                                        # 3rd Monster is werewolf
+                                        basic_choices()
+                                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                                            equipped_bow()
+                                            attack_bow_werewolf()
+                                        else:
+                                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                                print(" ")
+                                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                                print(" ")
+                                                Player.money +=reward
+                                                ending_sequence()
+                                            else:
+                                                message_of_death()
+                                    else:
+                                        correct()
+                                        ending_sequence()
+                                else:
+                                    message_of_death()
+                        else:
+                            correct()
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_bow()
+                                    attack_bow_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+
+            else:
+                correct()
+                fork_in_the_road()
+                if direction == "1" or direction == "2":
+                    current_enemy = giant_worm
+                    giant_worm_desc()
+                    # 2nd Monster is Giant Worm
+                    basic_choices()
+                    while Player.health > 0 and current_enemy.enemy_health > 0:
+                        equipped_bow()
+                        attack_bow_giant_worm()
+                    else:
+                        if Player.health > 0 and current_enemy.enemy_health < 1:
+                            print(" ")
+                            print(f"You've defeated the {current_enemy.enemy_name}!")
+                            print(" ")
+                            Player.money +=reward
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_bow()
+                                    attack_bow_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+                        else:
+                            message_of_death()
+                else:
+                    correct()
+                    fork_in_the_road()
+                    if direction == "2" or direction == "3":
+                        current_enemy = werewolf
+                        werewolf_desc()
+                        # 3rd Monster is werewolf
+                        basic_choices()
+                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                            equipped_bow()
+                            attack_bow_werewolf()
+                        else:
+                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                print(" ")
+                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                print(" ")
+                                Player.money +=reward
+                                ending_sequence()
+                            else:
+                                message_of_death()
+                    else:
+                        correct()
+                        ending_sequence()
+#------------------------Weapon: Dragonblade
+        elif Player.player_weapon == lords_staff:
+            fork_in_the_road()
+            if direction == "1" or direction == "3":
+                current_enemy = thief
+                thief_desc()
+                # 1st Monster is the thief
+                basic_choices()
+                while Player.health > 0 and current_enemy.enemy_health > 0:
+                    equipped_lords_staff()
+                    attack_staff_thief()
+                else:
+                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                        print(" ")
+                        print(f"You've defeated the {current_enemy.enemy_name}")
+                        print(" ")
+                        Player.money +=reward
+                        fork_in_the_road()
+                        if direction == "1" or direction == "2":
+                            current_enemy = giant_worm
+                            giant_worm_desc()
+                            # 2nd Monster is Giant Worm
+                            basic_choices()
+                            while Player.health > 0 and current_enemy.enemy_health > 0:
+                                equipped_lords_staff()
+                                attack_staff_giant_worm()
+                            else:
+                                if Player.health > 0 and current_enemy.enemy_health < 1:
+                                    print(" ")
+                                    print(f"You've defeated the {current_enemy.enemy_name}!")
+                                    print(" ")
+                                    Player.money +=reward
+                                    fork_in_the_road()
+                                    if direction == "2" or direction == "3":
+                                        current_enemy = werewolf
+                                        werewolf_desc()
+                                        # 3rd Monster is werewolf
+                                        basic_choices()
+                                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                                            equipped_lords_staff()
+                                            attack_staff_werewolf()
+                                        else:
+                                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                                print(" ")
+                                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                                print(" ")
+                                                Player.money +=reward
+                                                ending_sequence()
+                                            else:
+                                                message_of_death()
+                                    else:
+                                        correct()
+                                        ending_sequence()
+                                else:
+                                    message_of_death()
+                        else:
+                            correct()
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_lords_staff()
+                                    attack_staff_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+
+            else:
+                correct()
+                fork_in_the_road()
+                if direction == "1" or direction == "2":
+                    current_enemy = giant_worm
+                    giant_worm_desc()
+                    # 2nd Monster is Giant Worm
+                    basic_choices()
+                    while Player.health > 0 and current_enemy.enemy_health > 0:
+                        equipped_lords_staff()
+                        attack_staff_giant_worm()
+                    else:
+                        if Player.health > 0 and current_enemy.enemy_health < 1:
+                            print(" ")
+                            print(f"You've defeated the {current_enemy.enemy_name}!")
+                            print(" ")
+                            Player.money +=reward
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_lords_staff()
+                                    attack_staff_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+                        else:
+                            message_of_death()
+                else:
+                    correct()
+                    fork_in_the_road()
+                    if direction == "2" or direction == "3":
+                        current_enemy = werewolf
+                        werewolf_desc()
+                        # 3rd Monster is werewolf
+                        basic_choices()
+                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                            equipped_lords_staff()
+                            attack_staff_werewolf()
+                        else:
+                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                print(" ")
+                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                print(" ")
+                                Player.money +=reward
+                                ending_sequence()
+                            else:
+                                message_of_death()
+                    else:
+                        correct()
+                        ending_sequence()
+#------------------------Weapon: Lord's Staff                
+
+        if Player.player_weapon == stick:
+            fork_in_the_road()
+            if direction == "1" or direction == "3":
+                current_enemy = thief
+                thief_desc()
+                # 1st Monster is the thief
+                basic_choices()
+                while Player.health > 0 and current_enemy.enemy_health > 0:
+                    equipped_stick()
+                    attack_stick_thief()
+                else:
+                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                        print(" ")
+                        print(f"You've defeated the {current_enemy.enemy_name}")
+                        print(" ")
+                        Player.money +=reward
+                        fork_in_the_road()
+                        if direction == "1" or direction == "2":
+                            current_enemy = giant_worm
+                            giant_worm_desc()
+                            # 2nd Monster is Giant Worm
+                            basic_choices()
+                            while Player.health > 0 and current_enemy.enemy_health > 0:
+                                equipped_stick()
+                                attack_stick_giant_worm()
+                            else:
+                                if Player.health > 0 and current_enemy.enemy_health < 1:
+                                    print(" ")
+                                    print(f"You've defeated the {current_enemy.enemy_name}!")
+                                    print(" ")
+                                    Player.money +=reward
+                                    fork_in_the_road()
+                                    if direction == "2" or direction == "3":
+                                        current_enemy = werewolf
+                                        werewolf_desc()
+                                        # 3rd Monster is werewolf
+                                        basic_choices()
+                                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                                            equipped_stick()
+                                            attack_stick_werewolf()
+                                        else:
+                                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                                print(" ")
+                                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                                print(" ")
+                                                Player.money +=reward
+                                                ending_sequence()
+                                            else:
+                                                message_of_death()
+                                    else:
+                                        correct()
+                                        ending_sequence()
+                                else:
+                                    message_of_death()
+                        else:
+                            correct()
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_stick()
+                                    attack_stick_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+
+            else:
+                correct()
+                fork_in_the_road()
+                if direction == "1" or direction == "2":
+                    current_enemy = giant_worm
+                    giant_worm_desc()
+                    # 2nd Monster is Giant Worm
+                    basic_choices()
+                    while Player.health > 0 and current_enemy.enemy_health > 0:
+                        equipped_stick()
+                        attack_stick_giant_worm()
+                    else:
+                        if Player.health > 0 and current_enemy.enemy_health < 1:
+                            print(" ")
+                            print(f"You've defeated the {current_enemy.enemy_name}!")
+                            print(" ")
+                            Player.money +=reward
+                            fork_in_the_road()
+                            if direction == "2" or direction == "3":
+                                current_enemy = werewolf
+                                werewolf_desc()
+                                # 3rd Monster is werewolf
+                                basic_choices()
+                                while Player.health > 0 and current_enemy.enemy_health > 0:
+                                    equipped_stick()
+                                    attack_stick_werewolf()
+                                else:
+                                    if Player.health > 0 and current_enemy.enemy_health < 1:
+                                        print(" ")
+                                        print(f"You've defeated the {current_enemy.enemy_name}!")
+                                        print(" ")
+                                        Player.money +=reward
+                                        ending_sequence()
+                                    else:
+                                        message_of_death()
+                            else:
+                                correct()
+                                ending_sequence()
+                        else:
+                            message_of_death()
+                else:
+                    correct()
+                    fork_in_the_road()
+                    if direction == "2" or direction == "3":
+                        current_enemy = werewolf
+                        werewolf_desc()
+                        # 3rd Monster is werewolf
+                        basic_choices()
+                        while Player.health > 0 and current_enemy.enemy_health > 0:
+                            equipped_stick()
+                            attack_stick_werewolf()
+                        else:
+                            if Player.health > 0 and current_enemy.enemy_health < 1:
+                                print(" ")
+                                print(f"You've defeated the {current_enemy.enemy_name}!")
+                                print(" ")
+                                Player.money +=reward
+                                ending_sequence()
+                            else:
+                                message_of_death()
+                    else:
+                        correct()
+                        ending_sequence()                                
+        
+              
 
 
+#-------------------------------------------------------
 def purchasing(): # Function for buying things at the shop
     print(" ") # Whitespace for easier reading
     print(f"Wares: \n1.Stick ({stick.cost} coins)\n2. Wooden Sword ({wooden_sword.cost} coins)\n3. Bow {bow.cost})\n4. Metal Sword ({metal_sword.cost} coins)\n5. Dragonblade ({dragonblade.cost} coins), ")
     while 1 == 1: # Loop of buying things in shop
-        shop_choice = input("What would you like to buy? (1: Stick, 2: Wooden Sword, 3: Bow, 4: Metal Sword, 5: Dragonblade (or 6: Nothing?)): ")
+        shop_choice = input("What would you like to buy? (1: Stick, 2: Wooden Sword, 3: Bow, 4: Metal Sword, 5: Dragonblade, 6: Potions, (or 7: Nothing?)): ")
         shop_choice = shop_choice
-        if shop_choice == "6":
+        if shop_choice == "7":
             print("\"Have a nice day!\" the boy says, waving his hand goodbye.")
             print(" ")
             print("You have left the shop.")
             break # Leaves the shop
+        elif shop_choice == "6":
+            print(" ")
+            print("\"I have a lot of health potions,\" the boy says. \"They're very cheap! 50 coins apiece!\"")
+            print(" ")
+            buy = int(input("How many potions would you like to buy?: "))
+            cost = buy * 50
+            if Player.money >= cost:
+                conf = input("Are you sure? (Yes/No): ")
+                if conf.lower == "yes":
+                    Player.health_potions += buy
+                    Player.money -= cost
+                elif conf.lower == "no":
+                    print(" ")
+                    print("\"Okay,\" the boy says. \"You can look around some more!\"")
+                    purchasing()
+                else:
+                    print("Invalid input.")
+                    purchasing()
+            else:
+                print("The boy picks at the handful of coins you put on the counter. \"This is not enough,\" he says.")
+                choose()
         elif shop_choice == "1":
             if bag.count("Stick") > 0: # If the player already has this item in their bag, they're kicked out of the shop teehee
                 print("You already have this item.")
@@ -1549,6 +2368,9 @@ def choose(): # Player chooses what they want to do (5 options)
                         equip_message()
                     elif select == "Fists" or select.lower() == "fists":
                         Player.player_weapon = fists
+                    elif select == "Lord's Staff" or select.lower() == "lord's staff":
+                        Player.player_weapon = lords_staff
+                        equip_message()
                 else:
                     print("You already have this item equipped.")
             else:
