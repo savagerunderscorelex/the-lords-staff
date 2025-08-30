@@ -98,12 +98,12 @@ lords_staff = Weapon(1000, "Lord's Staff", 10000000000) # Well, this you can't b
 # ------------------------------------------------
 
 # Enemies (3 for now)
-giant_worm = Enemy(300,"Giant Worm", 20) #random.randint(20,40)
-thief = Enemy(200, "Thief", 15) #random.randint(10,35)
-werewolf = Enemy(250, "Werewolf", 20) #random.randint(15,40)
+giant_worm = Enemy(300.0,"Giant Worm", 20) #random.randint(20,40)
+thief = Enemy(200.0, "Thief", 15) #random.randint(10,35)
+werewolf = Enemy(250.0, "Werewolf", 20) #random.randint(15,40)
 
 #Skills 
-heavy_blow = Skill(0.8, "Heavy Blow", "All", 0.75)
+heavy_blow = Skill(0.8, "Heavy Blow", "All", 1.75)
 weak_slice = Skill(0.75, "Weak Slice", "Wooden Sword, Metal Sword", 1.8)
 slice_skill = Skill(0.7, "Slice", "Metal Sword", 2)
 dragons_fury = Skill(0.8, "Dragon's Fury", "Dragonblade", 3)
@@ -149,24 +149,26 @@ def add_weapon(bag, shop_choice):
 #---------------------------------------------
 # Weapon skill options in the maze
 def equipped_stick():
-    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
+    global skilled
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase ")
 def equipped_wooden_sword():
-    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
-    print(f"{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase")
+    global skilled
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 2:{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase ")
 def equipped_metal_sword():
-    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
-    print(f"{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase")
-    print(f"{slice_skill.skill_name}: {slice_skill.skill_success_rate * 100}% Success Rate, {slice_skill.damage_increase * 100}% Damage Increase")
+    global skilled
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 2:{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase, 3:{slice_skill.skill_name}: {slice_skill.skill_success_rate * 100}% Success Rate, {slice_skill.damage_increase * 100}% Damage Increase ")
 def equipped_bow():
-    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
-    print(f"{double_the_fire.skill_name}: {double_the_fire.skill_success_rate * 100}% Success Rate, {double_the_fire.damage_increase * 100}% Damage Increase")
+    global skilled
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 4:{double_the_fire.skill_name}: {double_the_fire.skill_success_rate * 100}% Success Rate, {double_the_fire.damage_increase * 100}% Damage Increase ")
 def equipped_dragonblade():
-    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
-    print(f"{dragonbreath.skill_name}: {dragonbreath.skill_success_rate * 100}% Success Rate, {dragonbreath.damage_increase * 100}% Damage Increase")
-    print(f"{dragons_fury.skill_name}: {dragons_fury.skill_success_rate * 100}% Success Rate, {dragons_fury.damage_increase * 100}% Damage Increase")
+    global skilled
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 5:{dragonbreath.skill_name}: {dragonbreath.skill_success_rate * 100}% Success Rate, {dragonbreath.damage_increase * 100}% Damage Increase, 6:{dragons_fury.skill_name}: {dragons_fury.skill_success_rate * 100}% Success Rate, {dragons_fury.damage_increase * 100}% Damage Increase ")
 def equipped_lords_staff():
-    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
-    print(f"{divine_curse.skill_name}: {divine_curse.skill_success_rate * 100}% Success Rate, {divine_curse.damage_increase * 100}% Damage Increase")
+    global skilled
+    skilled = input(f"Skills: 1: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase, 7:{divine_curse.skill_name}: {divine_curse.skill_success_rate * 100}% Success Rate, {divine_curse.damage_increase * 100}% Damage Increase ")
+#-------------------------------------
+
+
 # DEATH ZONE 
 def reset_stats(): # Sets player stats to default values, only used if restarting the game or when a player dies
     Player.health = 100
@@ -237,14 +239,18 @@ def maze_description(): # Large amount of print statements for the maze introduc
 def ready_player_one(): # Asking the user whether or not they will enter the maze
     print("Objective: Enter the labryinth, and choose the correct directions, or it could cost you your life.")
     ready_player_one = input("Are you ready? (Yes/No): ")
-    if ready_player_one.lower() == "yes":
-        print("You enter the labyrinth, your chest beating, but your mind focused on your task.")
-    elif ready_player_one.lower() == "no":
-        print("Your mind races at the thought of the obstacles you'll meet in the labryinth. You're hesitant, and you're not so into it, at least not yet.")
+    if Player.player_weapon == fists:
+        print("You cannot enter with a weak weapon.")
         choose()
     else:
-        print(f"\"{ready_player_one},\" you mumble. You don't even know what to pick. You go back to the middle of the path where you started.")
-        choose()
+        if ready_player_one.lower() == "yes":
+            print("You enter the labyrinth, your chest beating, but your mind focused on your task.")
+        elif ready_player_one.lower() == "no":
+            print("Your mind races at the thought of the obstacles you'll meet in the labryinth. You're hesitant, and you're not so into it, at least not yet.")
+            choose()
+        else:
+            print(f"\"{ready_player_one},\" you mumble. You don't even know what to pick. You go back to the middle of the path where you started.")
+            choose()
 def fork_in_the_road():
     print("You walk forwards, and three paths lay in your wake. Which one will you choose? Choose wisely, or your life is at risk.")
     global direction
@@ -280,6 +286,49 @@ def ending(): # ending print statements once the player reaches the end of the g
             print("You've ended the game.")
             exit()
 
+# Selection in Maze
+def basic_choices():
+    action = input("Choose: 1: Drink Health Potion, 2: Check Stats, 3: Attack, 4: Escape: ")
+    if action == "1":
+        if Player.health > 0 and Player.health < 100:
+            if Player.health_potions > 0:
+                Player.health += 15
+                Player.health_potions -= 1
+            else: 
+                print("You do not have enough potions.")
+        else:
+            print("You don't need potions.")
+    elif action == "2":
+        print_player_stats()
+        basic_choices()
+    elif action == "3":
+        pass
+    elif action == "4":
+        print("Scared, you run away from the thief and out of the maze.")
+        ready_player_one()
+    else:
+        print("Invalid option.")
+        basic_choices()
+
+def attack_stick():
+    if skilled == "1":
+        if random.random() < heavy_blow.skill_success_rate:
+            hit_points = stick.damage * heavy_blow.damage_increase
+            print(f"You hit {hit_points} amount of damage!")
+            print(f"")
+            thief.enemy_health -= hit_points
+            print(f"The thief has {thief.enemy_health} health left!")
+            basic_choices()
+        else:
+            print("Your attack didn't hit!")
+            basic_choices()
+            
+    else:
+        print("Invalid option.")
+        equipped_stick()
+        attack_stick()
+
+
 
 # HUMONGOUS Functions: The main 3 functions that are part of the game, some made out of mid-sized and/or small functions
 def maze(): # The main game: the labyrinth
@@ -288,11 +337,30 @@ def maze(): # The main game: the labyrinth
     while 1==1:
         fork_in_the_road()
         if direction == "1" or direction == "3":
+            print(" ")
             print("A monster appears in your path! You must fight it before you continue on.") 
             print("A thief, holding a sack and ransacking the treasure in the palace turns to face you.")
             print("The thief slowly unsheathes their weapon, turning towards you with an evil grin.")
+            print(" ")
             # 1st Monster is the thief
-            #while thief.enemy_health > 0:
+            basic_choices()
+            while Player.health > 0 and thief.enemy_health > 0:
+                    if Player.player_weapon == stick:
+                        equipped_stick()
+                        attack_stick()
+                        if thief.enemy_health > 0:
+                            if random.random() < 0.75:
+                                thief.enemy_damage = random.randint(5,20)
+                                Player.health -= thief.enemy_damage
+                                print(f"The thief did {thief.enemy_damage} damage!")
+                            else:
+                                print("The thief missed!")
+                        else:
+                            Player.money +=100
+                            fork_in_the_road()
+                    elif Player.player_weapon == wooden_sword:
+                        print("hi")
+
 
         elif direction == "2":
             correct()
@@ -422,7 +490,7 @@ def purchasing(): # Function for buying things at the shop
     choose()
                     
 def choose(): # Player chooses what they want to do (5 options)
-    option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats/ 5: Check Your Inventory)")
+    option = input("What do you want to do? (1: Scour/ 2: Search for the Lord's Staff in the Maze/3: Go to Shop/4: Check Your Stats/ 5: Check Your Inventory): ")
     if option == "1": # "Scouring"
         winnings = random.randrange(1,120)
         print("You got " + str(winnings) + " moneys!")
@@ -500,10 +568,7 @@ def choose(): # Player chooses what they want to do (5 options)
         print("That is not a valid option.")
         choose()
 # Tests
-print(giant_worm.enemy_damage)
-equipped_metal_sword()
-equipped_stick()
-equipped_wooden_sword()
+Player.player_weapon = stick
 #------------------------------------ 
 
 # The game begins!!
@@ -511,7 +576,7 @@ equipped_wooden_sword()
 def game(): # Made the start game code a function so that players might be able to restart the game if they want to play again
     while 2 + 2 == 4: # Introduction code is in a while loop so that the player doesn't have to reset the program to reenter 1 to start the game
         print("Welcome to The Lord's Staff! Enter 1 to start the game.") # Ready player one reference?????
-        enter = input("Enter the Game:")
+        enter = input("Enter the Game: ")
         if enter == "1":
             print("You spawn in a fantasy city, with witches in crooked hats speeding on their brooms over you, and stone trolls hobbling past you. "
             "You don’t know who you are, where you came from, or what made you come here. " 
