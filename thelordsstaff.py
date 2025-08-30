@@ -7,6 +7,7 @@ Finish adding comments as well
 Finish writing shop descriptions based on currently equipped weapon
 Finish creating skills and learn how to output code based on a chance through random
 when player enters the shop, pick between buying weapons or health potions
+- At the beginning explain the rules to the player: skills correlate with weapons, health potions heal, scouring gets money, blah blah blah (unless write into README file)
 CURRENT PROBLEMS: 
 - 
 
@@ -41,6 +42,8 @@ OH! I also forgot to implement HP potions. Later, I will do so.
 7/6/25 2:20PM WAT wrote the print statements for different equipped weapons when players enter the shop, fixed some minor issues (like printing the damage in the string
 instead of inserting the variable within the statement, since I changed the damage multiple times throughout this project.), removed tests and made the bag default 
 have the weapon "Fists"
+
+8/30/25 8:48AM (back home now) worked on skill print messages for weapons, adjusted skill variables, 
 
 """
 
@@ -83,6 +86,7 @@ class Skill():
 # Standalone variables
 shop_choice = 0
 bag = Player.bag
+x = 100
 
 # Weapons and their stats: Damage, Name, and shop Cost
 stick = Weapon(15, "Stick", 500)
@@ -100,30 +104,18 @@ werewolf = Enemy(250, "Werewolf", 20) #random.randint(15,40)
 
 #Skills 
 heavy_blow = Skill(0.8, "Heavy Blow", "All", 0.75)
-weak_slice = Skill(0.7, "Weak Slice", "Wooden Sword", 1.8)
-slice_skill = Skill(0.75, "Slice", "Metal Sword", 2)
+weak_slice = Skill(0.75, "Weak Slice", "Wooden Sword, Metal Sword", 1.8)
+slice_skill = Skill(0.7, "Slice", "Metal Sword", 2)
 dragons_fury = Skill(0.8, "Dragon's Fury", "Dragonblade", 3)
-double_the_fire = Skill(0.75, "Double the Fire", "Bow", 2)
+double_the_fire = Skill(0.9, "Double the Fire", "Bow", 2)
 dragonbreath = Skill(0.99, "Dragonbreath", "Dragonblade", 2)
 divine_curse = Skill(1, "Divine Curse", "Lord's Staff", 10)
 
 
 # Small Functions: Short message statements or code that does like one thing
+# Messages
 def equip_message():
     print(f"You've equipped the {Player.player_weapon.name}!")
-def add_weapon(bag, shop_choice):
-    if shop_choice == "1":
-        bag.append("Stick")
-    elif shop_choice == "2":
-        bag.append("Wooden Sword")
-    elif shop_choice == "3":
-        bag.append("Bow")
-    elif shop_choice == "4":
-        bag.append("Metal Sword")
-    elif shop_choice == "5":
-        bag.append("Dragonblade")
-    else:
-        pass
 def purchase_message():
     print(f"You just bought the {Player.player_weapon.name}! ({Player.player_weapon.damage} damage)")
     equip_message()
@@ -139,12 +131,42 @@ def forwards(): # lieu reference????????????
     print("You continue on, fearing the worst blocking your path.")
 def correct():
     print("You see that there is no entity in your path. You breathe a sigh of relief, and continue through the labryinth.")
+#-----------------------------------------------------------------
+# Shop 
+def add_weapon(bag, shop_choice):
+    if shop_choice == "1":
+        bag.append("Stick")
+    elif shop_choice == "2":
+        bag.append("Wooden Sword")
+    elif shop_choice == "3":
+        bag.append("Bow")
+    elif shop_choice == "4":
+        bag.append("Metal Sword")
+    elif shop_choice == "5":
+        bag.append("Dragonblade")
+    else:
+        pass
+#---------------------------------------------
 # Weapon skill options in the maze
 def equipped_stick():
-    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100} % Damage Increase")
-
-
-
+    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
+def equipped_wooden_sword():
+    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
+    print(f"{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase")
+def equipped_metal_sword():
+    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
+    print(f"{weak_slice.skill_name}: {weak_slice.skill_success_rate * 100}% Success Rate, {weak_slice.damage_increase * 100}% Damage Increase")
+    print(f"{slice_skill.skill_name}: {slice_skill.skill_success_rate * 100}% Success Rate, {slice_skill.damage_increase * 100}% Damage Increase")
+def equipped_bow():
+    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
+    print(f"{double_the_fire.skill_name}: {double_the_fire.skill_success_rate * 100}% Success Rate, {double_the_fire.damage_increase * 100}% Damage Increase")
+def equipped_dragonblade():
+    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
+    print(f"{dragonbreath.skill_name}: {dragonbreath.skill_success_rate * 100}% Success Rate, {dragonbreath.damage_increase * 100}% Damage Increase")
+    print(f"{dragons_fury.skill_name}: {dragons_fury.skill_success_rate * 100}% Success Rate, {dragons_fury.damage_increase * 100}% Damage Increase")
+def equipped_lords_staff():
+    print(f"Skills: {heavy_blow.skill_name}: {heavy_blow.skill_success_rate * 100}% Success Rate, {heavy_blow.damage_increase * 100}% Damage Increase")
+    print(f"{divine_curse.skill_name}: {divine_curse.skill_success_rate * 100}% Success Rate, {divine_curse.damage_increase * 100}% Damage Increase")
 # DEATH ZONE 
 def reset_stats(): # Sets player stats to default values, only used if restarting the game or when a player dies
     Player.health = 100
@@ -160,6 +182,7 @@ def print_player_stats(): # Prints the player's stats, duhhhhhhhhhhhhhhhhhh
     print(f"Your health: {Player.health}/100")
     print(f"Your current damage: {Player.player_weapon.damage}")
     print(f"Your current weapon: {Player.player_weapon.name}")
+
 def shop_desc_fists(): # Shop description based on the currently equipped weapon: Fists
     print("You look around, taking a closer look at the wares. To the left of you, lies a simple Stick.")
     print(f"It looks like it will add a bit to your damage, having {stick.damage} damage instead of {fists.damage}.")
@@ -170,6 +193,7 @@ def shop_desc_fists(): # Shop description based on the currently equipped weapon
     print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
     print("\"The Dragonblade,\" the boy said in a wispy voice.")
     print(f"Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has {dragonblade.damage} damage.")
+
 def shop_desc_stick(): # Shop description based on the currently equipped weapon: Stick
     print("You glance over the weapons scattered around the shop. Behind the boy at the paydesk, hangs a Wooden Sword.")
     print(f"Compared to your Stick, it has a greater damage of {wooden_sword.damage} damage.")
@@ -178,6 +202,7 @@ def shop_desc_stick(): # Shop description based on the currently equipped weapon
     print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
     print("\"The Dragonblade,\" the boy said in a wispy voice.")
     print(f"Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has {dragonblade.damage} damage.")
+
 def shop_desc_wooden_sword():# Shop description based on the currently equipped weapon: Wooden Sword
     print(f"Leaning on the wall of the small shop lies a Stick. It is weaker than your Wooden Sword, only dealing {stick.damage} damage.")
     print(f"Adjacent to the boy stands a Bow, with {bow.damage} damage. It is stronger than your current weapon.")
@@ -185,15 +210,19 @@ def shop_desc_wooden_sword():# Shop description based on the currently equipped 
     print("You notice the boy lifting another large sword from under the desk. Wide-eyed, you look over the weapon.")
     print("\"The Dragonblade,\" the boy said in a wispy voice.")
     print(f"Jewels adorn the sword, shining bright like sunlight on the ocean waves. The tip is sharp, enough to pierce anything it touches. This glorious weapon has {dragonblade.damage} damage.")
+
 def shop_desc_bow(): # Shop description based on the currently equipped weapon: Bow
     print("You eye the weapons in the humble shop. A stick, with a singular leaf still on its length, lies on the ground.")
     print(f"It has a weaker damage compared to your Bow: {stick.damage} damage.")
     print(f"On the wall behind the boy hangs a Wooden Sword. It has a lower damage compared to your weapon: {wooden_sword.damage} damage.")
     print(f"A gleaming Metal Sword cathces your attention. It will definitely add more to your damage, having {metal_sword.damage} damage compared to the {bow.damage} damage of your bow.")
+
 def shop_desc_metal_sword():
     pass
+
 def shop_desc_dragonblade():
     pass
+
 def shop_desc_lords_staff():
     pass
 
@@ -472,6 +501,9 @@ def choose(): # Player chooses what they want to do (5 options)
         choose()
 # Tests
 print(giant_worm.enemy_damage)
+equipped_metal_sword()
+equipped_stick()
+equipped_wooden_sword()
 #------------------------------------ 
 
 # The game begins!!
@@ -489,4 +521,5 @@ def game(): # Made the start game code a function so that players might be able 
             print("Please enter 1 to start the game.")
             continue
     choose()
-game()
+
+game() #the call that starts it all
