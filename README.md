@@ -33,12 +33,10 @@ Some of the parts of the game may not be very clear, so I've decided to write th
 
 ### Required Downloads
 
-Python (latest version)
-<br>This Program (thelordsstaff.py)
+The .exe file in the folder "dist"
 
 ### Instructions
 
-On a desktop (PC or laptop), download Python (if you haven't already) and this program. You can download the program by clicking on the program name that shows its commits, pressing the 3 dots on the right side and clicking "Download."
-
+On a desktop (PC or laptop), download the .exe file, and double click on it. It should run in your command line!!
 ## Khan Academy
 I also copied the code onto Khan Academy's code editor, so there would be an easier way to play. Here's the link: [l3xis4u: The Lord's Staff](https://www.khanacademy.org/python-program/the-lords-staff/5555592524578816). I hope you enjoy :3
