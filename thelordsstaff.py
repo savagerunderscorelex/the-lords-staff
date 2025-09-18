@@ -133,7 +133,7 @@ def right():
 def forwards(): # lieu reference????????????
     print("You continue on, fearing the worst blocking your path.")
 def correct():
-    print("You see that there is no entity in your path. You breathe a sigh of relief, and continue through the labryinth.")
+    print("You see that there is no entity in your path. You breathe a sigh of relief, and continue through the labyrinth.")
 def message_of_death():
     print("You Died.")
     choose()
@@ -242,7 +242,7 @@ def shop_desc_bow(): # Shop description based on the currently equipped weapon: 
     print("You eye the weapons in the humble shop. A stick, with a singular leaf still on its length, lies on the ground.")
     print(f"It has a weaker damage compared to your Bow: {stick.damage} damage.")
     print(f"On the wall behind the boy hangs a Wooden Sword. It has a lower damage compared to your weapon: {wooden_sword.damage} damage.")
-    print(f"A gleaming Metal Sword cathces your attention. It will definitely add more to your damage, having {metal_sword.damage} damage compared to the {bow.damage} damage of your bow.")
+    print(f"A gleaming Metal Sword catches your attention. It will definitely add more to your damage, having {metal_sword.damage} damage compared to the {bow.damage} damage of your bow.")
 
 def shop_desc_metal_sword():
     pass
@@ -258,11 +258,11 @@ def maze_description(): # Large amount of print statements for the maze introduc
     print("You walk along the path set before you. In a few minutes, you're in front of a castle. Its stone walls are cracked, evidence of its old age."
     "Moss, vines, and other vegetation have conquered the castle, grasping its high towers like a snake on a pole."
     "You don't know why it's here or why you even"
-    "felt called to it. But deep inside your heart, you knew that this is where the Lord's Staff is hidden, deep within the labryinth"
+    "felt called to it. But deep inside your heart, you knew that this is where the Lord's Staff is hidden, deep within the labyrinth"
     "filled with monsters and other entities wishing to find it too.")
     print(" ")
 def ready_player_one(): # Asking the user whether or not they will enter the maze
-    print("Objective: Enter the labryinth, and choose the correct directions, or it could cost you your life.")
+    print("Objective: Enter the labyrinth, and choose the correct directions, or it could cost you your life.")
     ready_player_one = input("Are you ready? (Yes/No): ")
     if Player.player_weapon == fists:
         print("You cannot enter with a weak weapon.")
@@ -271,7 +271,7 @@ def ready_player_one(): # Asking the user whether or not they will enter the maz
         if ready_player_one.lower() == "yes":
             print("You enter the labyrinth, your chest beating, but your mind focused on your task.")
         elif ready_player_one.lower() == "no":
-            print("Your mind races at the thought of the obstacles you'll meet in the labryinth. You're hesitant, and you're not so into it, at least not yet.")
+            print("Your mind races at the thought of the obstacles you'll meet in the labyrinth. You're hesitant, and you're not so into it, at least not yet.")
             choose()
         else:
             print(f"\"{ready_player_one},\" you mumble. You don't even know what to pick. You go back to the middle of the path where you started.")
@@ -340,7 +340,7 @@ def ending_sequence():
     print(" ")
     print("Finally, you have reached the end. A glow of light fills the last room, blinding your eyes for just a moment.")
     print("There in all its glory, lies the Lord's Staff. Adorned with precious jewels, and laced with gold, it makes a gentle hum as you approach.")
-    print("You grabn the Staff, careful not to damage its body. The aching yearning for the Staff has finally washed away, relief and accomplishment left in its wake.")
+    print("You grab the Staff, careful not to damage its body. The aching yearning for the Staff has finally washed away, relief and accomplishment left in its wake.")
     print("You did it. You've obtained the Lord's Staff.")
     ending()
 
@@ -2295,7 +2295,7 @@ def purchasing(): # Function for buying things at the shop
                     break # You get kicked out since you don't enough money, brokie
         else:
             print("\"Uhm, I don't have that in the store right now,\" the boy says. \"Maybe you should choose something else.\"")
-            print("\"Oh! Okay!\" you say in embarassment.")
+            print("\"Oh! Okay!\" you say in embarrassment.")
             continue # Player gets to rechoose their options if they mistype something (or something...)
     choose()
                     
